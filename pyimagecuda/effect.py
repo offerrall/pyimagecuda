@@ -3,7 +3,7 @@ from .filter import Filter
 from .blend import Blend
 from .fill import Fill
 from .utils import check_dimensions_match
-from pyimagecuda_internal import (
+from .pyimagecuda_internal import ( #type: ignore
     rounded_corners_f32,
     extract_alpha_f32,
     colorize_shadow_f32

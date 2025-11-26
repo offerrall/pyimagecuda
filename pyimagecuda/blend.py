@@ -1,5 +1,5 @@
 from .image import Image
-from pyimagecuda_internal import blend_f32
+from .pyimagecuda_internal import blend_f32 #type: ignore
 
 
 class Blend:

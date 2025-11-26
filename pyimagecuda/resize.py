@@ -1,5 +1,5 @@
 from .image import Image
-from pyimagecuda_internal import resize_f32
+from .pyimagecuda_internal import resize_f32  #type: ignore
 
 
 def _resize_internal(

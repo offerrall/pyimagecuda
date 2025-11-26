@@ -15,8 +15,6 @@ Designed to be installed via a simple `pip install` without requiring the user t
 
 If you have installed a test build, you can verify that hardware acceleration is working correctly by running:
 
-```python
-import pyimagecuda
-# Verifies drivers, loads the DLL, and runs a test kernel
-pyimagecuda.check_system()
+```bash
+python -c "import pyimagecuda; pyimagecuda.check_system()"
 ```

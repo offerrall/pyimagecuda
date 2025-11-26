@@ -1,6 +1,6 @@
 from .image import Image
 from .utils import check_dimensions_match
-from pyimagecuda_internal import gaussian_blur_separable_f32, sharpen_f32
+from .pyimagecuda_internal import gaussian_blur_separable_f32, sharpen_f32  #type: ignore
 
 
 class Filter:

@@ -1,4 +1,4 @@
-from pyimagecuda_internal import create_buffer_f32, free_buffer, create_buffer_u8
+from .pyimagecuda_internal import create_buffer_f32, free_buffer, create_buffer_u8  #type: ignore
 
 
 class Buffer:

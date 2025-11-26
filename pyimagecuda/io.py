@@ -1,6 +1,6 @@
 import pyvips
 
-from pyimagecuda_internal import upload_to_buffer, convert_f32_to_u8, convert_u8_to_f32, download_from_buffer, copy_buffer
+from .pyimagecuda_internal import upload_to_buffer, convert_f32_to_u8, convert_u8_to_f32, download_from_buffer, copy_buffer  #type: ignore
 from .image import Image, ImageU8, ImageBase
 from .utils import check_dimensions_match
 

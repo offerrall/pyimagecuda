@@ -1,6 +1,6 @@
 from typing import Literal
 from .image import Image
-from pyimagecuda_internal import fill_color_f32, fill_gradient_f32
+from .pyimagecuda_internal import fill_color_f32, fill_gradient_f32  #type: ignore
 
 class Fill:
     
