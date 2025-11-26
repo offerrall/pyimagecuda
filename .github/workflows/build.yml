@@ -1,6 +1,14 @@
 name: Build Wheels
 
-on: [push]
+on:
+  # Se ejecuta al hacer push (solo para probar que compila)
+  push:
+    branches: [main]
+  # Se ejecuta al crear una Release oficial
+  release:
+    types: [published]
+  # SE EJECUTA MANUALMENTE (El botón del pánico)
+  workflow_dispatch:
 
 jobs:
   build_wheels:
@@ -33,19 +41,19 @@ jobs:
           path: ./wheelhouse/*.whl
 
   publish_to_pypi:
-      name: Publish to PyPI
-      needs: [build_wheels]
-      runs-on: ubuntu-latest
-      environment: pypi-release
-      permissions:
-        id-token: write
-      if: github.event_name == 'release' && github.event.action == 'published'
+    name: Publish to PyPI
+    needs: [build_wheels]
+    runs-on: ubuntu-latest
+    environment: pypi-release
+    permissions:
+      id-token: write
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
 
-      steps:
-        - uses: actions/download-artifact@v4
-          with:
-            name: wheels
-            path: dist
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels
+          path: dist
 
-        - name: Publish to PyPI
-          uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
