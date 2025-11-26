@@ -1,0 +1,9 @@
+__pycache__/
+*.pyd
+build/
+dist/
+wheelhouse/
+*.obj
+*.lib
+*.exp
+.vscode/
