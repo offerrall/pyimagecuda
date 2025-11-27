@@ -1,13 +1,13 @@
 name: Build Wheels
 
 on:
-  # Se ejecuta al hacer push (solo para probar que compila)
+
   push:
     branches: [main]
-  # Se ejecuta al crear una Release oficial
+
   release:
     types: [published]
-  # SE EJECUTA MANUALMENTE (El botón del pánico)
+
   workflow_dispatch:
 
 jobs:
@@ -47,7 +47,7 @@ jobs:
     environment: pypi-release
     permissions:
       id-token: write
-    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/download-artifact@v4
