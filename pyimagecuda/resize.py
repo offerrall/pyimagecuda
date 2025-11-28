@@ -4,11 +4,18 @@ from .pyimagecuda_internal import resize_f32  #type: ignore
 
 def _resize_internal(
     src: Image,
-    width: int,
-    height: int,
+    width: int | None,
+    height: int | None,
     method: int,
     dst_buffer: Image | None = None
 ) -> Image | None:
+    
+    if width is None and height is None:
+        raise ValueError("At least one of width or height must be specified")
+    elif width is None:
+        width = int(src.width * (height / src.height))
+    elif height is None:
+        height = int(src.height * (width / src.width))
     
     if dst_buffer is None:
         dst_buffer = Image(width, height)
@@ -38,8 +45,8 @@ class Resize:
     @staticmethod
     def nearest(
         src: Image,
-        width: int,
-        height: int,
+        width: int | None = None,
+        height: int | None = None,
         dst_buffer: Image | None = None
     ) -> Image | None:
         return _resize_internal(src, width, height, 0, dst_buffer)
@@ -47,8 +54,8 @@ class Resize:
     @staticmethod
     def bilinear(
         src: Image,
-        width: int,
-        height: int,
+        width: int | None = None,
+        height: int | None = None,
         dst_buffer: Image | None = None
     ) -> Image | None:
         return _resize_internal(src, width, height, 1, dst_buffer)
@@ -56,8 +63,8 @@ class Resize:
     @staticmethod
     def bicubic(
         src: Image,
-        width: int,
-        height: int,
+        width: int | None = None,
+        height: int | None = None,
         dst_buffer: Image | None = None
     ) -> Image | None:
         return _resize_internal(src, width, height, 2, dst_buffer)
@@ -65,8 +72,8 @@ class Resize:
     @staticmethod
     def lanczos(
         src: Image,
-        width: int,
-        height: int,
+        width: int | None = None,
+        height: int | None = None,
         dst_buffer: Image | None = None
     ) -> Image | None:
         return _resize_internal(src, width, height, 3, dst_buffer)

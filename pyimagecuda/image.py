@@ -55,10 +55,17 @@ class ImageBase:
             )
         
         self._height = value
-    
+
     def free(self) -> None:
         self._buffer.free()
+
+    def __enter__(self):
+        return self
     
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.free()
+        return False
+
     def get_max_capacity(self) -> tuple[int, int]:
         return (self._buffer.capacity_width, self._buffer.capacity_height)
 

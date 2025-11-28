@@ -3,6 +3,7 @@ __pycache__/
 build/
 dist/
 wheelhouse/
+site/
 *.obj
 *.lib
 *.exp

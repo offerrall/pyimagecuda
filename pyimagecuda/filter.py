@@ -37,7 +37,7 @@ class Filter:
             dst_buffer._buffer._handle,
             src.width,
             src.height,
-            int(radius),
+            radius,
             float(sigma)
         )
 

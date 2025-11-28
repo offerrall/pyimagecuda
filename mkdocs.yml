@@ -1,0 +1,73 @@
+site_name: pyimagecuda
+site_description: A library to accelerate image processing using CUDA in Python.
+site_author: Beltrán Offerrall
+repo_name: pyimagecuda
+repo_url: https://github.com/offerrall/pyimagecuda
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - content.code.copy
+    - content.code.annotate
+    - toc.integrate
+    - navigation.tabs.sticky
+    - navigation.top
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
+
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: '__span'
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+
+nav:
+  - Home: index.md
+  - Image: image.md
+  - Load and Save: io.md
+  - Fill: fill.md
+  - Blend: blend.md
+  - Resize: resize.md
+  - Filter: filter.md
+  - Effect: effect.md
+
+plugins:
+  - minify:
+      minify_html: true
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/offerrall/pyimagecuda
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/offerrall
