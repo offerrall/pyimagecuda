@@ -1,0 +1,7 @@
+from pyimagecuda import load, Adjust, save
+
+img = load("photo.jpg")
+
+Adjust.contrast(img, 0.5)
+
+save(img, 'output.jpg')

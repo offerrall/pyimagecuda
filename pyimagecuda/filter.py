@@ -1,5 +1,5 @@
 from .image import Image
-from .utils import check_dimensions_match
+from .utils import ensure_capacity
 from .pyimagecuda_internal import gaussian_blur_separable_f32, sharpen_f32  #type: ignore
 
 
@@ -13,6 +13,11 @@ class Filter:
         dst_buffer: Image | None = None,
         temp_buffer: Image | None = None
     ) -> Image | None:
+        """
+        Applies a Gaussian blur to the image (returns new image or writes to buffer).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#gaussian-blur
+        """
 
         if sigma is None:
             sigma = radius / 3.0
@@ -21,14 +26,14 @@ class Filter:
             dst_buffer = Image(src.width, src.height)
             return_dst = True
         else:
-            check_dimensions_match(dst_buffer, src)
+            ensure_capacity(dst_buffer, src.width, src.height)
             return_dst = False
 
         if temp_buffer is None:
             temp_buffer = Image(src.width, src.height)
             owns_temp = True
         else:
-            check_dimensions_match(temp_buffer, src)
+            ensure_capacity(temp_buffer, src.width, src.height)
             owns_temp = False
 
         gaussian_blur_separable_f32(
@@ -52,12 +57,17 @@ class Filter:
         strength: float = 1.0,
         dst_buffer: Image | None = None
     ) -> Image | None:
+        """
+        Sharpens the image (returns new image or writes to buffer).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#sharpen
+        """
 
         if dst_buffer is None:
             dst_buffer = Image(src.width, src.height)
             return_buffer = True
         else:
-            check_dimensions_match(dst_buffer, src)
+            ensure_capacity(dst_buffer, src.width, src.height)
             return_buffer = False
         
         sharpen_f32(

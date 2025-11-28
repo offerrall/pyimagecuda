@@ -1,4 +1,4 @@
-# PyImageCUDA 0.0.2
+# PyImageCUDA 0.0.3
 
 [![PyPI version](https://img.shields.io/pypi/v/pyimagecuda.svg)](https://pypi.org/project/pyimagecuda/)
 [![Build Status](https://github.com/offerrall/pyimagecuda/actions/workflows/build.yml/badge.svg)](https://github.com/offerrall/pyimagecuda/actions)
@@ -23,12 +23,12 @@ with Image(1024, 1024) as bg:
 
         save(bg, 'output.png')
 ```
-<img src="docs/images/quick.png" alt="Demo" width="400">
+<img src="https://offerrall.github.io/pyimagecuda/images/quick.png" alt="Demo" width="400">
 
 ## Key Features
 
 * ✅ **Zero Dependencies:** No CUDA Toolkit, Visual Studio, or complex compilers needed. Is Plug & Play.
-* ✅ **Ultra-lightweight:** Core library weighs **<0.5 MB**.
+* ✅ **Ultra-lightweight:** library weighs **<0.5 MB**.
 * ✅ **Studio Quality:** 32-bit floating-point precision (float32) to prevent color banding.
 * ✅ **Advanced Memory Control:** Reuse GPU buffers across operations and resize without reallocation—critical for video processing and batch workflows.
 * ✅ **API Simplicity:** Intuitive, Pythonic API designed for ease of use.
@@ -51,15 +51,17 @@ pip install pyimagecuda
 
 ## Documentation
 
-**⚠️ Alpha Release:** This is version 0.0.2 with core functionality. Many more features are planned and under development.
+**⚠️ Alpha Release:** Many more features are planned and under development.
 
 ### Core Concepts
 * [Getting Started Guide](https://offerrall.github.io/pyimagecuda/)
 * [Image & Memory](https://offerrall.github.io/pyimagecuda/image/) (Buffer management)
 * [IO](https://offerrall.github.io/pyimagecuda/io/) (Loading and Saving)
 
-### Operations (v0.0.2)
-* [Blend](https://offerrall.github.io/pyimagecuda/blend/) (Normal, Multiply, Screen, Add)
+### Operations
+* [Adjust](https://offerrall.github.io/pyimagecuda/adjust/) (Brightness, Contrast, Saturation, Gamma)
+* [Transform](https://offerrall.github.io/pyimagecuda/transform/) (Flip, Rotate, Crop)
+* [Blend](https://offerrall.github.io/pyimagecuda/blend/) (Normal, Multiply, Screen, Add, Overlay, Soft Light, Hard Light, Mask)
 * [Resize](https://offerrall.github.io/pyimagecuda/resize/) (Nearest, Bilinear, Bicubic, Lanczos)
 * [Filter](https://offerrall.github.io/pyimagecuda/filter/) (Gaussian Blur, Sharpen)
 * [Effect](https://offerrall.github.io/pyimagecuda/effect/) (Drop Shadow, Rounded Corners)

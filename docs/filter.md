@@ -62,7 +62,7 @@ save(blurred, 'output.jpg')
 
 **Returns:** Blurred image (or None if `dst_buffer` provided)
 
-**Note:** `temp_buffer` is used internally for the separable convolution (horizontal pass). Both buffers must match source dimensions.
+**Note:** `temp_buffer` is used internally for the separable convolution (horizontal pass). Both buffers must have sufficient capacity.
 
 ---
 
@@ -132,16 +132,17 @@ Reuse buffers for batch processing to avoid allocations.
 
 **Example:**
 
-
 ```python
 from pyimagecuda import Image, load, Filter, save
 
-# Pre-allocate buffers
+# Pre-allocate buffers with sufficient capacity (e.g. 1920x1080)
 dst = Image(1920, 1080)
 temp = Image(1920, 1080)
 
 for file in files:
     src = load(file)
+    # Buffers automatically adjust their logical dimensions
+    # provided they have enough capacity
     Filter.gaussian_blur(src, radius=5,
                          dst_buffer=dst,
                          temp_buffer=temp)
@@ -152,4 +153,4 @@ dst.free()
 temp.free()
 ```
 
-When using buffers, operations are in-place (modify `dst_buffer` directly) and return `None` instead of a new image.
+When using buffers, operations are in-place (modify dst_buffer directly) and return None. The buffers automatically adjust their logical dimensions to match the operation result, provided they have enough capacity.

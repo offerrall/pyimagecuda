@@ -1,7 +1,6 @@
 from typing import Literal
-
 from .image import Image
-from .pyimagecuda_internal import blend_f32 #type: ignore
+from .pyimagecuda_internal import blend_f32, blend_mask_f32 # type: ignore
 
 
 def _calculate_position(
@@ -41,6 +40,11 @@ class Blend:
         offset_y: int = 0,
         opacity: float = 1.0
     ) -> None:
+        """
+        Standard alpha blending (in-place).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#normal
+        """
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,
@@ -66,6 +70,11 @@ class Blend:
         offset_y: int = 0,
         opacity: float = 1.0
     ) -> None:
+        """
+        Multiplies color values, darkening the image (in-place).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#multiply
+        """
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,
@@ -91,6 +100,11 @@ class Blend:
         offset_y: int = 0,
         opacity: float = 1.0
     ) -> None:
+        """
+        Inverted multiply, lightening the image (in-place).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#screen
+        """
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,
@@ -116,6 +130,11 @@ class Blend:
         offset_y: int = 0,
         opacity: float = 1.0
     ) -> None:
+        """
+        Additive blending, useful for light effects (in-place).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#add
+        """
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,
@@ -130,4 +149,125 @@ class Blend:
             pos_x, pos_y,
             3,
             opacity
+        )
+
+    @staticmethod
+    def overlay(
+        base: Image,
+        overlay: Image,
+        anchor: Literal['top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'] = 'top-left',
+        offset_x: int = 0,
+        offset_y: int = 0,
+        opacity: float = 1.0
+    ) -> None:
+        """
+        Combines Multiply and Screen. Increases contrast (in-place).
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#overlay
+        """
+        pos_x, pos_y = _calculate_position(
+            base.width, base.height,
+            overlay.width, overlay.height,
+            anchor, offset_x, offset_y
+        )
+        
+        blend_f32(
+            base._buffer._handle,
+            overlay._buffer._handle,
+            base.width, base.height,
+            overlay.width, overlay.height,
+            pos_x, pos_y,
+            4,
+            opacity
+        )
+
+    @staticmethod
+    def soft_light(
+        base: Image,
+        overlay: Image,
+        anchor: Literal['top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'] = 'top-left',
+        offset_x: int = 0,
+        offset_y: int = 0,
+        opacity: float = 1.0
+    ) -> None:
+        """
+        Gentle lighting effect, like a diffuse spotlight (in-place).
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#soft-light
+        """
+        pos_x, pos_y = _calculate_position(
+            base.width, base.height,
+            overlay.width, overlay.height,
+            anchor, offset_x, offset_y
+        )
+        
+        blend_f32(
+            base._buffer._handle,
+            overlay._buffer._handle,
+            base.width, base.height,
+            overlay.width, overlay.height,
+            pos_x, pos_y,
+            5,
+            opacity
+        )
+
+    @staticmethod
+    def hard_light(
+        base: Image,
+        overlay: Image,
+        anchor: Literal['top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'] = 'top-left',
+        offset_x: int = 0,
+        offset_y: int = 0,
+        opacity: float = 1.0
+    ) -> None:
+        """
+        Strong lighting effect, like a harsh spotlight (in-place).
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#hard-light
+        """
+        pos_x, pos_y = _calculate_position(
+            base.width, base.height,
+            overlay.width, overlay.height,
+            anchor, offset_x, offset_y
+        )
+        
+        blend_f32(
+            base._buffer._handle,
+            overlay._buffer._handle,
+            base.width, base.height,
+            overlay.width, overlay.height,
+            pos_x, pos_y,
+            6,
+            opacity
+        )
+
+    @staticmethod
+    def mask(
+        base: Image,
+        mask: Image,
+        anchor: Literal['top-left', 'top-center', 'top-right', 'center-left', 'center', 'center-right', 'bottom-left', 'bottom-center', 'bottom-right'] = 'top-left',
+        offset_x: int = 0,
+        offset_y: int = 0,
+        mode: Literal['alpha', 'luminance'] = 'luminance'
+    ) -> None:
+        """
+        Applies an image as an alpha mask to the base image (in-place).
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#mask
+        """
+        pos_x, pos_y = _calculate_position(
+            base.width, base.height,
+            mask.width, mask.height,
+            anchor, offset_x, offset_y
+        )
+        
+        mode_int = 1 if mode == 'luminance' else 0
+        
+        blend_mask_f32(
+            base._buffer._handle,
+            mask._buffer._handle,
+            base.width, base.height,
+            mask.width, mask.height,
+            pos_x, pos_y,
+            mode_int
         )

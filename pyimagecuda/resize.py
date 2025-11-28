@@ -1,4 +1,5 @@
 from .image import Image
+from .utils import ensure_capacity
 from .pyimagecuda_internal import resize_f32  #type: ignore
 
 
@@ -21,11 +22,7 @@ def _resize_internal(
         dst_buffer = Image(width, height)
         return_buffer = True
     else:
-        if dst_buffer.width != width or dst_buffer.height != height:
-            raise ValueError(
-                f"dst_buffer size mismatch: expected {width}×{height}, "
-                f"got {dst_buffer.width}×{dst_buffer.height}"
-            )
+        ensure_capacity(dst_buffer, width, height)
         return_buffer = False
     
     resize_f32(
@@ -49,6 +46,11 @@ class Resize:
         height: int | None = None,
         dst_buffer: Image | None = None
     ) -> Image | None:
+        """
+        Resizes the image using nearest neighbor interpolation (returns new image or writes to buffer).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/resize/#nearest
+        """
         return _resize_internal(src, width, height, 0, dst_buffer)
 
     @staticmethod
@@ -58,6 +60,12 @@ class Resize:
         height: int | None = None,
         dst_buffer: Image | None = None
     ) -> Image | None:
+        """
+        Resizes the image using bilinear interpolation (returns new image or writes to buffer).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/resize/#bilinear
+        """
+
         return _resize_internal(src, width, height, 1, dst_buffer)
 
     @staticmethod
@@ -67,6 +75,11 @@ class Resize:
         height: int | None = None,
         dst_buffer: Image | None = None
     ) -> Image | None:
+        """
+        Resizes the image using bicubic interpolation (returns new image or writes to buffer).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/resize/#bicubic
+        """
         return _resize_internal(src, width, height, 2, dst_buffer)
 
     @staticmethod
@@ -76,4 +89,9 @@ class Resize:
         height: int | None = None,
         dst_buffer: Image | None = None
     ) -> Image | None:
+        """
+        Resizes the image using Lanczos interpolation (returns new image or writes to buffer).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/resize/#lanczos
+        """
         return _resize_internal(src, width, height, 3, dst_buffer)

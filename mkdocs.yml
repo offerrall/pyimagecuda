@@ -55,6 +55,8 @@ nav:
   - Resize: resize.md
   - Filter: filter.md
   - Effect: effect.md
+  - Adjust: adjust.md
+  - Transform: transform.md
 
 plugins:
   - minify:

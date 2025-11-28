@@ -2,9 +2,26 @@
 #include "include.h"
 
 static PyMethodDef all_methods[] = {
+    // adjust
+    // brightness.cu
+    {"adjust_brightness_f32", py_adjust_brightness_f32, METH_VARARGS, "Adjust Brightness F32"},
+
+    // contrast.cu
+    {"adjust_contrast_f32", py_adjust_contrast_f32, METH_VARARGS, "Adjust Contrast F32"},
+
+    // gamma.cu
+    {"adjust_gamma_f32", py_adjust_gamma_f32, METH_VARARGS, "Adjust Gamma F32"},
+
+    // saturation.cu
+    {"adjust_saturation_f32", py_adjust_saturation_f32, METH_VARARGS, "Adjust Saturation F32"},
+
+
     // blend
     // blend.cu
     {"blend_f32", py_blend_f32, METH_VARARGS, "Blend F32"},
+
+    // mask.cu
+    {"blend_mask_f32", py_blend_mask_f32, METH_VARARGS, "Blend Mask F32"},
 
 
     // buffer
@@ -50,6 +67,18 @@ static PyMethodDef all_methods[] = {
     // resize
     // resize.cu
     {"resize_f32", py_resize_f32, METH_VARARGS, "Resize F32"},
+
+
+    // transform
+    // crop.cu
+    {"crop_f32", py_crop_f32, METH_VARARGS, "Crop F32"},
+
+    // flip.cu
+    {"flip_f32", py_flip_f32, METH_VARARGS, "Flip F32"},
+
+    // rotate.cu
+    {"rotate_arbitrary_f32", py_rotate_arbitrary_f32, METH_VARARGS, "Rotate Arbitrary F32"},
+    {"rotate_fixed_f32", py_rotate_fixed_f32, METH_VARARGS, "Rotate Fixed F32"},
 
 
     {NULL, NULL, 0, NULL}

@@ -7,9 +7,25 @@
 extern "C" {
 #endif
 
+// adjust
+// brightness.cu
+PyObject* py_adjust_brightness_f32(PyObject* self, PyObject* args);
+
+// contrast.cu
+PyObject* py_adjust_contrast_f32(PyObject* self, PyObject* args);
+
+// gamma.cu
+PyObject* py_adjust_gamma_f32(PyObject* self, PyObject* args);
+
+// saturation.cu
+PyObject* py_adjust_saturation_f32(PyObject* self, PyObject* args);
+
 // blend
 // blend.cu
 PyObject* py_blend_f32(PyObject* self, PyObject* args);
+
+// mask.cu
+PyObject* py_blend_mask_f32(PyObject* self, PyObject* args);
 
 // buffer
 // buffer.cu
@@ -50,6 +66,17 @@ PyObject* py_sharpen_f32(PyObject* self, PyObject* args);
 // resize
 // resize.cu
 PyObject* py_resize_f32(PyObject* self, PyObject* args);
+
+// transform
+// crop.cu
+PyObject* py_crop_f32(PyObject* self, PyObject* args);
+
+// flip.cu
+PyObject* py_flip_f32(PyObject* self, PyObject* args);
+
+// rotate.cu
+PyObject* py_rotate_arbitrary_f32(PyObject* self, PyObject* args);
+PyObject* py_rotate_fixed_f32(PyObject* self, PyObject* args);
 
 
 #ifdef __cplusplus

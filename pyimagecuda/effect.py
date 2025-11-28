@@ -2,7 +2,7 @@ from .image import Image
 from .filter import Filter
 from .blend import Blend
 from .fill import Fill
-from .utils import check_dimensions_match
+from .utils import ensure_capacity
 from .pyimagecuda_internal import ( #type: ignore
     rounded_corners_f32,
     extract_alpha_f32,
@@ -14,6 +14,11 @@ class Effect:
 
     @staticmethod
     def rounded_corners(image: Image, radius: float) -> None:
+        """
+        Applies rounded corners to the image (in-place).
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/effect/#rounded-corners
+        """
         max_radius = min(image.width, image.height) / 2.0
         
         if radius < 0:
@@ -41,6 +46,11 @@ class Effect:
         shadow_buffer: Image | None = None,
         temp_buffer: Image | None = None
     ) -> Image | None:
+        """
+        Adds a drop shadow to the image (returns new image or writes to buffer).
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/effect/#drop-shadow
+        """
         
         if expand:
             padding_left = blur + max(0, -offset_x)
@@ -54,72 +64,60 @@ class Effect:
             shadow_width = result_width
             shadow_height = result_height
             
-            if dst_buffer is None:
-                result = Image(result_width, result_height)
-                return_result = True
-            else:
-                max_w, max_h = dst_buffer.get_max_capacity()
-                if result_width > max_w or result_height > max_h:
-                    raise ValueError(
-                        f"dst_buffer capacity too small: need {result_width}×{result_height}, "
-                        f"got {max_w}×{max_h}"
-                    )
-                dst_buffer.width = result_width
-                dst_buffer.height = result_height
-                result = dst_buffer
-                return_result = False
-
-            image_offset_x = padding_left
-            image_offset_y = padding_top
-            shadow_offset_x = 0
-            shadow_offset_y = 0
+            image_draw_x = padding_left
+            image_draw_y = padding_top
         else:
+            result_width = image.width
+            result_height = image.height
             shadow_width = image.width
             shadow_height = image.height
             
-            if dst_buffer is None:
-                result = Image(image.width, image.height)
-                return_result = True
-            else:
-                check_dimensions_match(dst_buffer, image)
-                result = dst_buffer
-                return_result = False
+            image_draw_x = 0
+            image_draw_y = 0
             
-            image_offset_x = 0
-            image_offset_y = 0
-            shadow_offset_x = offset_x
-            shadow_offset_y = offset_y
-        
+        if dst_buffer is None:
+            result = Image(result_width, result_height)
+            return_result = True
+        else:
+            ensure_capacity(dst_buffer, result_width, result_height)
+            result = dst_buffer
+            return_result = False
+
         if shadow_buffer is None:
             shadow = Image(shadow_width, shadow_height)
             owns_shadow = True
         else:
-            if expand:
-                max_w, max_h = shadow_buffer.get_max_capacity()
-                if shadow_width > max_w or shadow_height > max_h:
-                    raise ValueError(
-                        f"shadow_buffer capacity too small: need {shadow_width}×{shadow_height}, "
-                        f"got {max_w}×{max_h}"
-                    )
-                shadow_buffer.width = shadow_width
-                shadow_buffer.height = shadow_height
-            else:
-                check_dimensions_match(shadow_buffer, image)
+            ensure_capacity(shadow_buffer, shadow_width, shadow_height)
             shadow = shadow_buffer
             owns_shadow = False
+
+        req_temp_w = max(image.width, shadow_width)
+        req_temp_h = max(image.height, shadow_height)
+        need_temp = expand or (blur > 0)
+        owns_temp = False
+
+        if need_temp:
+            if temp_buffer is None:
+                temp_buffer = Image(req_temp_w, req_temp_h)
+                owns_temp = True
+            else:
+                ensure_capacity(temp_buffer, req_temp_w, req_temp_h)
+                owns_temp = False
 
         Fill.color(shadow, (0.0, 0.0, 0.0, 0.0))
 
         if expand:
-            temp_alpha = Image(image.width, image.height)
-            extract_alpha_f32(
-                image._buffer._handle,
-                temp_alpha._buffer._handle,
-                image.width,
-                image.height
-            )
-            Blend.normal(shadow, temp_alpha, anchor='top-left', offset_x=padding_left, offset_y=padding_top)
-            temp_alpha.free()
+            if temp_buffer is not None:
+                temp_buffer.width = image.width
+                temp_buffer.height = image.height
+                
+                extract_alpha_f32(
+                    image._buffer._handle,
+                    temp_buffer._buffer._handle,
+                    image.width,
+                    image.height
+                )
+                Blend.normal(shadow, temp_buffer, anchor='top-left', offset_x=padding_left, offset_y=padding_top)
         else:
             extract_alpha_f32(
                 image._buffer._handle,
@@ -129,23 +127,6 @@ class Effect:
             )
         
         if blur > 0:
-            if temp_buffer is None:
-                temp_buffer = Image(shadow_width, shadow_height)
-                owns_temp = True
-            else:
-                if expand:
-                    max_w, max_h = temp_buffer.get_max_capacity()
-                    if shadow_width > max_w or shadow_height > max_h:
-                        raise ValueError(
-                            f"temp_buffer capacity too small: need {shadow_width}×{shadow_height}, "
-                            f"got {max_w}×{max_h}"
-                        )
-                    temp_buffer.width = shadow_width
-                    temp_buffer.height = shadow_height
-                else:
-                    check_dimensions_match(temp_buffer, image)
-                owns_temp = False
-            
             Filter.gaussian_blur(
                 shadow,
                 radius=blur,
@@ -153,9 +134,6 @@ class Effect:
                 dst_buffer=shadow,
                 temp_buffer=temp_buffer
             )
-            
-            if owns_temp:
-                temp_buffer.free()
         
         colorize_shadow_f32(
             shadow._buffer._handle,
@@ -165,8 +143,12 @@ class Effect:
         )
         
         Fill.color(result, (0.0, 0.0, 0.0, 0.0))
-        Blend.normal(result, shadow, anchor='top-left', offset_x=shadow_offset_x + offset_x, offset_y=shadow_offset_y + offset_y)
-        Blend.normal(result, image, anchor='top-left', offset_x=image_offset_x, offset_y=image_offset_y)
+        
+        Blend.normal(result, shadow, anchor='top-left', offset_x=offset_x, offset_y=offset_y)
+        Blend.normal(result, image, anchor='top-left', offset_x=image_draw_x, offset_y=image_draw_y)
+        
+        if owns_temp and temp_buffer is not None:
+            temp_buffer.free()
         
         if owns_shadow:
             shadow.free()

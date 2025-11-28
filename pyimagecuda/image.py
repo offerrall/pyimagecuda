@@ -76,10 +76,20 @@ class ImageBase:
 class Image(ImageBase):
     
     def __init__(self, width: int, height: int):
+        """
+        Creates a floating-point image with the given width and height.
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/image/#image-float32-precision
+        """
         super().__init__(width, height, is_u8=False)
 
 
 class ImageU8(ImageBase):
     
     def __init__(self, width: int, height: int):
+        """
+        Creates an 8-bit unsigned integer image with the given width and height.
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/image/#imageu8-8-bit-precision
+        """
         super().__init__(width, height, is_u8=True)

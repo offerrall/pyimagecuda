@@ -1,6 +1,6 @@
 # PyImageCUDA
 
-PyImageCUDA is a specialized library for **creative image composition** rather than computer vision or analysis. It provides GPU-accelerated effects for design workflows—operations typically found in professional design software like Photoshop or After Effects.
+PyImageCUDA is a specialized library for **creative image composition** rather than computer vision or analysis. It provides GPU-accelerated effects for design workflows—operations typically found in professional design software.
 
 Built for composition, not analysis - Focused on creative workflows, not edge detection or object recognition.
 
@@ -109,6 +109,20 @@ Professional design effects like shadows, corners, and more.
 Scale images with various interpolation algorithms.
 
 → [Full details: Resize](resize.md)
+
+---
+
+### Transform
+Geometric transformations: rotate, flip, crop...
+
+→ [Full details: Transform](transform.md)
+
+---
+
+### Adjust
+Color adjustments: brightness, contrast, saturation, gamma...
+
+→ [Full details: Adjust](adjust.md)
 
 ---
 

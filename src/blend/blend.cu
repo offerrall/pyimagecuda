@@ -5,39 +5,22 @@
 
 extern "C" {
 
-__global__ void blend_normal_kernel(
-    float4* base, const float4* overlay,
-    uint32_t base_width, uint32_t base_height,
-    uint32_t overlay_width, uint32_t overlay_height,
-    int32_t pos_x, int32_t pos_y, float opacity
-);
-
-__global__ void blend_multiply_kernel(
-    float4* base, const float4* overlay,
-    uint32_t base_width, uint32_t base_height,
-    uint32_t overlay_width, uint32_t overlay_height,
-    int32_t pos_x, int32_t pos_y, float opacity
-);
-
-__global__ void blend_screen_kernel(
-    float4* base, const float4* overlay,
-    uint32_t base_width, uint32_t base_height,
-    uint32_t overlay_width, uint32_t overlay_height,
-    int32_t pos_x, int32_t pos_y, float opacity
-);
-
-__global__ void blend_add_kernel(
-    float4* base, const float4* overlay,
-    uint32_t base_width, uint32_t base_height,
-    uint32_t overlay_width, uint32_t overlay_height,
-    int32_t pos_x, int32_t pos_y, float opacity
-);
+__global__ void blend_normal_kernel(float4* base, const float4* overlay, uint32_t base_width, uint32_t base_height, uint32_t overlay_width, uint32_t overlay_height, int32_t pos_x, int32_t pos_y, float opacity);
+__global__ void blend_multiply_kernel(float4* base, const float4* overlay, uint32_t base_width, uint32_t base_height, uint32_t overlay_width, uint32_t overlay_height, int32_t pos_x, int32_t pos_y, float opacity);
+__global__ void blend_screen_kernel(float4* base, const float4* overlay, uint32_t base_width, uint32_t base_height, uint32_t overlay_width, uint32_t overlay_height, int32_t pos_x, int32_t pos_y, float opacity);
+__global__ void blend_add_kernel(float4* base, const float4* overlay, uint32_t base_width, uint32_t base_height, uint32_t overlay_width, uint32_t overlay_height, int32_t pos_x, int32_t pos_y, float opacity);
+__global__ void blend_overlay_kernel(float4* base, const float4* overlay, uint32_t base_width, uint32_t base_height, uint32_t overlay_width, uint32_t overlay_height, int32_t pos_x, int32_t pos_y, float opacity);
+__global__ void blend_soft_light_kernel(float4* base, const float4* overlay, uint32_t base_width, uint32_t base_height, uint32_t overlay_width, uint32_t overlay_height, int32_t pos_x, int32_t pos_y, float opacity);
+__global__ void blend_hard_light_kernel(float4* base, const float4* overlay, uint32_t base_width, uint32_t base_height, uint32_t overlay_width, uint32_t overlay_height, int32_t pos_x, int32_t pos_y, float opacity);
 
 enum BlendMode {
     BLEND_NORMAL = 0,
     BLEND_MULTIPLY = 1,
     BLEND_SCREEN = 2,
-    BLEND_ADD = 3
+    BLEND_ADD = 3,
+    BLEND_OVERLAY = 4,
+    BLEND_SOFT_LIGHT = 5,
+    BLEND_HARD_LIGHT = 6
 };
 
 PyObject* py_blend_f32(PyObject* self, PyObject* args) {
@@ -57,22 +40,19 @@ PyObject* py_blend_f32(PyObject* self, PyObject* args) {
         return NULL;
     }
     
-    if (mode < BLEND_NORMAL || mode > BLEND_ADD) {
+    if (mode < BLEND_NORMAL || mode > BLEND_HARD_LIGHT) {
         PyErr_SetString(PyExc_ValueError, "Invalid blend mode");
         return NULL;
     }
     
     if (validate_f32_buffer(base_capsule, "Base") < 0) return NULL;
     if (validate_f32_buffer(overlay_capsule, "Overlay") < 0) return NULL;
-    
     if (validate_dimensions(base_width, base_height) < 0) return NULL;
     if (validate_dimensions(overlay_width, overlay_height) < 0) return NULL;
     
     BufferContext* base_ctx = get_buffer_context(base_capsule);
-    if (base_ctx == NULL) return NULL;
-    
     BufferContext* overlay_ctx = get_buffer_context(overlay_capsule);
-    if (overlay_ctx == NULL) return NULL;
+    if (!base_ctx || !overlay_ctx) return NULL;
     
     dim3 blockSize(16, 16);
     dim3 gridSize(
@@ -85,44 +65,26 @@ PyObject* py_blend_f32(PyObject* self, PyObject* args) {
     
     switch(mode) {
         case BLEND_NORMAL:
-            blend_normal_kernel<<<gridSize, blockSize>>>(
-                base_ptr, overlay_ptr,
-                base_width, base_height,
-                overlay_width, overlay_height,
-                pos_x, pos_y, opacity
-            );
+            blend_normal_kernel<<<gridSize, blockSize>>>(base_ptr, overlay_ptr, base_width, base_height, overlay_width, overlay_height, pos_x, pos_y, opacity);
             break;
-            
         case BLEND_MULTIPLY:
-            blend_multiply_kernel<<<gridSize, blockSize>>>(
-                base_ptr, overlay_ptr,
-                base_width, base_height,
-                overlay_width, overlay_height,
-                pos_x, pos_y, opacity
-            );
+            blend_multiply_kernel<<<gridSize, blockSize>>>(base_ptr, overlay_ptr, base_width, base_height, overlay_width, overlay_height, pos_x, pos_y, opacity);
             break;
-            
         case BLEND_SCREEN:
-            blend_screen_kernel<<<gridSize, blockSize>>>(
-                base_ptr, overlay_ptr,
-                base_width, base_height,
-                overlay_width, overlay_height,
-                pos_x, pos_y, opacity
-            );
+            blend_screen_kernel<<<gridSize, blockSize>>>(base_ptr, overlay_ptr, base_width, base_height, overlay_width, overlay_height, pos_x, pos_y, opacity);
             break;
-            
         case BLEND_ADD:
-            blend_add_kernel<<<gridSize, blockSize>>>(
-                base_ptr, overlay_ptr,
-                base_width, base_height,
-                overlay_width, overlay_height,
-                pos_x, pos_y, opacity
-            );
+            blend_add_kernel<<<gridSize, blockSize>>>(base_ptr, overlay_ptr, base_width, base_height, overlay_width, overlay_height, pos_x, pos_y, opacity);
             break;
-            
-        default:
-            PyErr_SetString(PyExc_ValueError, "Unknown blend mode");
-            return NULL;
+        case BLEND_OVERLAY:
+            blend_overlay_kernel<<<gridSize, blockSize>>>(base_ptr, overlay_ptr, base_width, base_height, overlay_width, overlay_height, pos_x, pos_y, opacity);
+            break;
+        case BLEND_SOFT_LIGHT:
+            blend_soft_light_kernel<<<gridSize, blockSize>>>(base_ptr, overlay_ptr, base_width, base_height, overlay_width, overlay_height, pos_x, pos_y, opacity);
+            break;
+        case BLEND_HARD_LIGHT:
+            blend_hard_light_kernel<<<gridSize, blockSize>>>(base_ptr, overlay_ptr, base_width, base_height, overlay_width, overlay_height, pos_x, pos_y, opacity);
+            break;
     }
     
     if (check_cuda_launch() < 0) return NULL;

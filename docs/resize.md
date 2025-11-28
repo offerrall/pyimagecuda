@@ -188,24 +188,27 @@ All methods share the same parameters:
 
 ## Buffer Reuse
 
-For batch processing, reuse the destination buffer.
+For batch processing, reuse the destination buffer. The buffer allows dynamic resizing as long as it has enough capacity.
 
 **Example:**
 
 ```python
 from pyimagecuda import Image, load, Resize, save
 
-# Pre-allocate destination
-dst = Image(800, 600)
+# Pre-allocate destination with max capacity (e.g., 4K)
+dst = Image(3840, 2160)
 
 for file in image_files:
     src = load(file)
-    Resize.lanczos(src, width=800, height=600,
-                   dst_buffer=dst)
+    
+    # dst automatically adjusts its dimensions to the result
+    # No need to calculate height or resize dst manually
+    Resize.lanczos(src, width=800, dst_buffer=dst)
+    
     save(dst, f"resized_{file}")
     src.free()
 
 dst.free()
 ```
 
-When using `dst_buffer`, both `width` and `height` must be specified and match buffer dimensions. The operation is in-place (modifies `dst_buffer` directly) and returns `None` instead of a new image.
+When using dst_buffer, the buffer's capacity must be large enough to hold the result. The buffer's logical dimensions (width, height) are automatically updated to match the operation result.
