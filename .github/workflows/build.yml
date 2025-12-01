@@ -37,6 +37,7 @@ jobs:
           CIBW_BUILD_VERBOSITY: 1
 
           CIBW_BEFORE_ALL_LINUX: >
+            yum install -y yum-utils &&
             yum-config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo &&
             yum install -y cuda-nvcc-12-5 cuda-cudart-devel-12-5 cuda-cudart-static-12-5
 
