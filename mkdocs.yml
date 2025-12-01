@@ -51,6 +51,7 @@ nav:
   - Image: image.md
   - Load and Save: io.md
   - Fill: fill.md
+  - Text: text.md
   - Blend: blend.md
   - Resize: resize.md
   - Filter: filter.md

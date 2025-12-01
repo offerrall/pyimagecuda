@@ -1,7 +1,7 @@
 import ctypes
 import sys
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 
 def _check_nvidia_driver():
     try:
@@ -45,6 +45,7 @@ if _INTERNAL_LOADED:
         from .effect import Effect
         from .adjust import Adjust
         from .transform import Transform
+        from .text import Text
     except ImportError as e:
         print(f"Warning: Error importing Python wrappers: {e}")
 

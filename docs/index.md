@@ -88,6 +88,13 @@ Fill images with colors, gradients, and patterns.
 
 ---
 
+### Text
+Rich typography, system fonts, HTML-like markup, letter spacing...
+
+→ [Full details: Text](text.md)
+
+---
+
 ### Blend
 Layer compositing with multiple blend modes.
 

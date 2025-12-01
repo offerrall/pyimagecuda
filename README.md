@@ -1,4 +1,4 @@
-# PyImageCUDA 0.0.5
+# PyImageCUDA 0.0.6
 
 [![PyPI version](https://img.shields.io/pypi/v/pyimagecuda.svg)](https://pypi.org/project/pyimagecuda/)
 [![Build Status](https://github.com/offerrall/pyimagecuda/actions/workflows/build.yml/badge.svg)](https://github.com/offerrall/pyimagecuda/actions)
@@ -53,7 +53,7 @@ with Image(1024, 1024) as bg:
 pip install pyimagecuda
 ```
 
-**Note:** Automatically installs `pyvips` binary dependencies for robust image format support (JPG, PNG, WEBP, HEIC).
+**Note:** `pyvips` is the only mandatory dependency (installed automatically). It is used strictly for robust file I/O (JPG, PNG, WEBP...) and high-quality Text rendering on the CPU.
 
 ## Documentation
 
@@ -65,13 +65,15 @@ pip install pyimagecuda
 * [IO](https://offerrall.github.io/pyimagecuda/io/) (Loading and Saving)
 
 ### Operations
-* [Adjust](https://offerrall.github.io/pyimagecuda/adjust/) (Brightness, Contrast, Saturation, Gamma, Opacity)
-* [Transform](https://offerrall.github.io/pyimagecuda/transform/) (Flip, Rotate, Crop)
+* [Fill](https://offerrall.github.io/pyimagecuda/fill/) (Solid colors, Gradients, Checkerboard, Grid, Stripes, Dots, Circle, Ngon, Noise, Perlin)
+* [Text](https://offerrall.github.io/pyimagecuda/text/) (Rich typography, system fonts, HTML-like markup, letter spacing...)
 * [Blend](https://offerrall.github.io/pyimagecuda/blend/) (Normal, Multiply, Screen, Add, Overlay, Soft Light, Hard Light, Mask)
 * [Resize](https://offerrall.github.io/pyimagecuda/resize/) (Nearest, Bilinear, Bicubic, Lanczos)
+* [Adjust](https://offerrall.github.io/pyimagecuda/adjust/) (Brightness, Contrast, Saturation, Gamma, Opacity)
+* [Transform](https://offerrall.github.io/pyimagecuda/transform/) (Flip, Rotate, Crop)
 * [Filter](https://offerrall.github.io/pyimagecuda/filter/) (Gaussian Blur, Sharpen, Sepia, Invert, Threshold, Solarize, Sobel, Emboss)
 * [Effect](https://offerrall.github.io/pyimagecuda/effect/) (Drop Shadow, Rounded Corners, Stroke, Vignette)
-* [Fill](https://offerrall.github.io/pyimagecuda/fill/) (Solid colors, Gradients, Checkerboard, Grid, Stripes, Dots, Circle, Ngon, Noise, Perlin)
+
 
 ## Requirements
 
