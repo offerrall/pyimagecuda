@@ -33,7 +33,7 @@ with Image(1024, 1024) as bg:
 
   </div>
   <div style="flex: 1;">
-    <img src="/images/quick.png" alt="quick" style="width: 100%;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/quick.png" alt="quick" style="width: 100%;">
   </div>
 </div>
 
