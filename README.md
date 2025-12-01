@@ -1,12 +1,14 @@
-# PyImageCUDA 0.0.4
+# PyImageCUDA 0.0.5
 
 [![PyPI version](https://img.shields.io/pypi/v/pyimagecuda.svg)](https://pypi.org/project/pyimagecuda/)
 [![Build Status](https://github.com/offerrall/pyimagecuda/actions/workflows/build.yml/badge.svg)](https://github.com/offerrall/pyimagecuda/actions)
 ![Python](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12%20|%203.13-blue)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-brightgreen)
+[![NVIDIA](https://img.shields.io/badge/NVIDIA-CUDA-76B900?style=flat&logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-zone)
 
 **GPU-accelerated image compositing for Python.**
 
-> PyImageCUDA focuses on creative image generation rather than computer vision. Expect GPU-accelerated effects for design workflows—blending modes, shadows, gradients, filters... not edge detection or object recognition.
+> PyImageCUDA is built for image composition, not computer vision. It provides GPU tools to create, modify, and blend images, rather than analyze or recognize objects within them.
 
 ## Quick Example
 
@@ -31,8 +33,8 @@ with Image(1024, 1024) as bg:
 
 ## Key Features
 
-* ✅ **Zero Dependencies:** No CUDA Toolkit, Visual Studio, or complex compilers needed. Is Plug & Play.
-* ✅ **Ultra-lightweight:** library weighs **<0.5 MB**.
+* ✅ **Zero Dependencies:** No CUDA Toolkit, Visual Studio, or complex compilers needed. Is Plug & Play on both Windows and Linux.
+* ✅ **Ultra-lightweight:** library weighs **<1 MB**.
 * ✅ **Studio Quality:** 32-bit floating-point precision (float32) to prevent color banding.
 * ✅ **Advanced Memory Control:** Reuse GPU buffers across operations and resize without reallocation—critical for video processing and batch workflows.
 * ✅ **API Simplicity:** Intuitive, Pythonic API designed for ease of use.
@@ -73,7 +75,9 @@ pip install pyimagecuda
 
 ## Requirements
 
-* **OS:** Windows 10 or 11 (64-bit). *Linux support coming soon.*
+* **OS:** 
+    - Windows 10 or 11 (64-bit). *Linux support coming soon.*
+    - Linux: Any modern distribution (Ubuntu, Fedora, Debian, Arch, WSL2, etc.).
 * **GPU:** NVIDIA GPU (Maxwell architecture / GTX 900 series or newer).
 * **Drivers:** Standard NVIDIA Drivers installed.
 
