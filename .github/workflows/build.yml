@@ -3,6 +3,10 @@ name: Build Wheels
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
   release:
     types: [published]
   workflow_dispatch:

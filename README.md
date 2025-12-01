@@ -34,7 +34,7 @@ with Image(1024, 1024) as bg:
 ## Key Features
 
 * ✅ **Zero Dependencies:** No CUDA Toolkit, Visual Studio, or complex compilers needed. Is Plug & Play on both Windows and Linux.
-* ✅ **Ultra-lightweight:** library weighs **<1 MB**.
+* ✅ **Ultra-lightweight:** library weighs **~1 MB**.
 * ✅ **Studio Quality:** 32-bit floating-point precision (float32) to prevent color banding.
 * ✅ **Advanced Memory Control:** Reuse GPU buffers across operations and resize without reallocation—critical for video processing and batch workflows.
 * ✅ **API Simplicity:** Intuitive, Pythonic API designed for ease of use.
@@ -76,7 +76,7 @@ pip install pyimagecuda
 ## Requirements
 
 * **OS:** 
-    - Windows 10 or 11 (64-bit). *Linux support coming soon.*
+    - Windows 10 or 11 (64-bit).
     - Linux: Any modern distribution (Ubuntu, Fedora, Debian, Arch, WSL2, etc.).
 * **GPU:** NVIDIA GPU (Maxwell architecture / GTX 900 series or newer).
 * **Drivers:** Standard NVIDIA Drivers installed.
