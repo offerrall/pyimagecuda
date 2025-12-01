@@ -1,4 +1,4 @@
-# PyImageCUDA 0.0.3
+# PyImageCUDA 0.0.4
 
 [![PyPI version](https://img.shields.io/pypi/v/pyimagecuda.svg)](https://pypi.org/project/pyimagecuda/)
 [![Build Status](https://github.com/offerrall/pyimagecuda/actions/workflows/build.yml/badge.svg)](https://github.com/offerrall/pyimagecuda/actions)
@@ -9,21 +9,25 @@
 > PyImageCUDA focuses on creative image generation rather than computer vision. Expect GPU-accelerated effects for design workflows—blending modes, shadows, gradients, filters... not edge detection or object recognition.
 
 ## Quick Example
+
+<img src="https://offerrall.github.io/pyimagecuda/images/quick.png" alt="Demo" width="400">
+
 ```python
-from pyimagecuda import Image, Fill, Effect, Blend, save
+from pyimagecuda import Image, Fill, Effect, Blend, Transform, save
 
 with Image(1024, 1024) as bg:
+    Fill.color(bg, (0, 1, 0.8, 1))
     with Image(512, 512) as card:
-        Fill.color(bg, (1, 1, 1, 1))
         Fill.gradient(card, (1, 0, 0, 1), (0, 0, 1, 1), 'radial')
         Effect.rounded_corners(card, 50)
 
-        with Effect.drop_shadow(card, blur=50, color=(0, 0, 0, 1)) as shadowed:
-            Blend.normal(bg, shadowed, anchor='center')
+        with Effect.stroke(card, 10, (1, 1, 1, 1)) as stroked:
+            with Effect.drop_shadow(stroked, blur=50, color=(0, 0, 0, 1)) as shadowed:
+                with Transform.rotate(shadowed, 45) as rotated:
+                    Blend.normal(bg, rotated, anchor='center')
 
-        save(bg, 'output.png')
+    save(bg, 'output.png')
 ```
-<img src="https://offerrall.github.io/pyimagecuda/images/quick.png" alt="Demo" width="400">
 
 ## Key Features
 
@@ -51,7 +55,7 @@ pip install pyimagecuda
 
 ## Documentation
 
-**⚠️ Alpha Release:** Many more features are planned and under development.
+**⚠️ Alpha Release:** Many more features are planned and under development. If you have specific needs or bug reports, please open an issue on GitHub.
 
 ### Core Concepts
 * [Getting Started Guide](https://offerrall.github.io/pyimagecuda/)
@@ -59,13 +63,13 @@ pip install pyimagecuda
 * [IO](https://offerrall.github.io/pyimagecuda/io/) (Loading and Saving)
 
 ### Operations
-* [Adjust](https://offerrall.github.io/pyimagecuda/adjust/) (Brightness, Contrast, Saturation, Gamma)
+* [Adjust](https://offerrall.github.io/pyimagecuda/adjust/) (Brightness, Contrast, Saturation, Gamma, Opacity)
 * [Transform](https://offerrall.github.io/pyimagecuda/transform/) (Flip, Rotate, Crop)
 * [Blend](https://offerrall.github.io/pyimagecuda/blend/) (Normal, Multiply, Screen, Add, Overlay, Soft Light, Hard Light, Mask)
 * [Resize](https://offerrall.github.io/pyimagecuda/resize/) (Nearest, Bilinear, Bicubic, Lanczos)
-* [Filter](https://offerrall.github.io/pyimagecuda/filter/) (Gaussian Blur, Sharpen)
-* [Effect](https://offerrall.github.io/pyimagecuda/effect/) (Drop Shadow, Rounded Corners)
-* [Fill](https://offerrall.github.io/pyimagecuda/fill/) (Solid colors, Gradients)
+* [Filter](https://offerrall.github.io/pyimagecuda/filter/) (Gaussian Blur, Sharpen, Sepia, Invert, Threshold, Solarize, Sobel, Emboss)
+* [Effect](https://offerrall.github.io/pyimagecuda/effect/) (Drop Shadow, Rounded Corners, Stroke, Vignette)
+* [Fill](https://offerrall.github.io/pyimagecuda/fill/) (Solid colors, Gradients, Checkerboard, Grid, Stripes, Dots, Circle, Ngon, Noise, Perlin)
 
 ## Requirements
 
@@ -74,3 +78,9 @@ pip install pyimagecuda
 * **Drivers:** Standard NVIDIA Drivers installed.
 
 **NOT REQUIRED:** Visual Studio, CUDA Toolkit, or Conda.
+
+## Contributing
+Contributions welcome! Open issues or submit PRs
+
+## License
+MIT License. See [LICENSE](LICENSE) for details.

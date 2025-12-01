@@ -12,6 +12,9 @@ static PyMethodDef all_methods[] = {
     // gamma.cu
     {"adjust_gamma_f32", py_adjust_gamma_f32, METH_VARARGS, "Adjust Gamma F32"},
 
+    // opacity.cu
+    {"adjust_opacity_f32", py_adjust_opacity_f32, METH_VARARGS, "Adjust Opacity F32"},
+
     // saturation.cu
     {"adjust_saturation_f32", py_adjust_saturation_f32, METH_VARARGS, "Adjust Saturation F32"},
 
@@ -40,25 +43,68 @@ static PyMethodDef all_methods[] = {
 
 
     // efffects
-    // drop_shadow.cu
-    {"colorize_shadow_f32", py_colorize_shadow_f32, METH_VARARGS, "Colorize Shadow F32"},
+    // extract_alpha_and_colorize.cu
+    {"colorize_alpha_mask_f32", py_colorize_alpha_mask_f32, METH_VARARGS, "Colorize Alpha Mask F32"},
     {"extract_alpha_f32", py_extract_alpha_f32, METH_VARARGS, "Extract Alpha F32"},
 
     // rounded_corners.cu
     {"rounded_corners_f32", py_rounded_corners_f32, METH_VARARGS, "Rounded Corners F32"},
 
+    // stroke.cu
+    {"compute_distance_field_f32", py_compute_distance_field_f32, METH_VARARGS, "Compute Distance Field F32"},
+    {"generate_stroke_composite_f32", py_generate_stroke_composite_f32, METH_VARARGS, "Generate Stroke Composite F32"},
+
+    // vignette.cu
+    {"effect_vignette_f32", py_effect_vignette_f32, METH_VARARGS, "Effect Vignette F32"},
+
 
     // fill
+    // checkerboard.cu
+    {"fill_checkerboard_f32", py_fill_checkerboard_f32, METH_VARARGS, "Fill Checkerboard F32"},
+
+    // circle.cu
+    {"fill_circle_f32", py_fill_circle_f32, METH_VARARGS, "Fill Circle F32"},
+
     // color.cu
     {"fill_color_f32", py_fill_color_f32, METH_VARARGS, "Fill Color F32"},
+
+    // dots.cu
+    {"fill_dots_f32", py_fill_dots_f32, METH_VARARGS, "Fill Dots F32"},
 
     // gradient.cu
     {"fill_gradient_f32", py_fill_gradient_f32, METH_VARARGS, "Fill Gradient F32"},
 
+    // grid.cu
+    {"fill_grid_f32", py_fill_grid_f32, METH_VARARGS, "Fill Grid F32"},
+
+    // ngon.cu
+    {"fill_ngon_f32", py_fill_ngon_f32, METH_VARARGS, "Fill Ngon F32"},
+
+    // noise.cu
+    {"fill_noise_f32", py_fill_noise_f32, METH_VARARGS, "Fill Noise F32"},
+
+    // perlin_noise.cu
+    {"fill_perlin_f32", py_fill_perlin_f32, METH_VARARGS, "Fill Perlin F32"},
+
+    // sripes.cu
+    {"fill_stripes_f32", py_fill_stripes_f32, METH_VARARGS, "Fill Stripes F32"},
+
 
     // filters
+    // convolution.cu
+    {"filter_emboss_f32", py_filter_emboss_f32, METH_VARARGS, "Filter Emboss F32"},
+    {"filter_sobel_f32", py_filter_sobel_f32, METH_VARARGS, "Filter Sobel F32"},
+
     // gaussian_blur_separable.cu
     {"gaussian_blur_separable_f32", py_gaussian_blur_separable_f32, METH_VARARGS, "Gaussian Blur Separable F32"},
+
+    // math_ops.cu
+    {"invert_f32", py_invert_f32, METH_VARARGS, "Invert F32"},
+    {"solarize_f32", py_solarize_f32, METH_VARARGS, "Solarize F32"},
+    {"threshold_f32", py_threshold_f32, METH_VARARGS, "Threshold F32"},
+
+    // sepia.cu
+    {"sepia_f32", py_sepia_f32, METH_VARARGS, "Sepia F32"},
 
     // sharpen.cu
     {"sharpen_f32", py_sharpen_f32, METH_VARARGS, "Sharpen F32"},

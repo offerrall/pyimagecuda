@@ -243,6 +243,68 @@ save(img, 'output.jpg')
 
 ---
 
+## Opacity
+
+Adjusts image opacity by multiplying the alpha channel.
+
+**Example - Semi-Transparent:**
+
+<div style="display: flex; gap: 20px; align-items: start;">
+  <div style="flex: 1;">
+
+```python
+from pyimagecuda import load, Adjust, save
+
+img = load("photo.jpg")
+
+Adjust.opacity(img, 0.5)
+
+save(img, 'output.png')
+```
+
+  </div>
+  <div style="flex: 1;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/adjust_opacity_half.png" alt="50% opacity" style="width: 100%;">
+    <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
+  </div>
+</div>
+
+**Example - Subtle Fade:**
+
+<div style="display: flex; gap: 20px; align-items: start;">
+  <div style="flex: 1;">
+
+```python
+from pyimagecuda import load, Adjust, save
+
+img = load("photo.jpg")
+
+Adjust.opacity(img, 0.8)
+
+save(img, 'output.png')
+```
+
+  </div>
+  <div style="flex: 1;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/adjust_opacity_subtle.png" alt="80% opacity" style="width: 100%;">
+    <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
+  </div>
+</div>
+
+**Parameters:**
+
+- `image` (Image): Image to adjust (modified in-place)
+- `factor` (float): Opacity multiplier
+  - `factor = 0.0`: Fully transparent
+  - `factor = 1.0`: No change (original opacity)
+  - `factor > 1.0`: Increases opacity (can exceed 1.0 for pixels with alpha < 1.0)
+
+**Use for:** Creating fade effects, watermarks, layering with transparency, ghost/overlay effects
+
+**Note:** This operation multiplies the existing alpha channel. If the image has no alpha channel or alpha is already 1.0, values > 1.0 will have no visible effect.
+
+---
+
 ## Combining Adjustments
 
 All adjustments can be chained since they modify in-place:

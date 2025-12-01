@@ -3,7 +3,8 @@ from .pyimagecuda_internal import ( #type: ignore
     adjust_brightness_f32, 
     adjust_contrast_f32,
     adjust_saturation_f32,
-    adjust_gamma_f32
+    adjust_gamma_f32,
+    adjust_opacity_f32
 )
 
 
@@ -80,4 +81,21 @@ class Adjust:
             image.width,
             image.height,
             float(gamma)
+        )
+
+    @staticmethod
+    def opacity(image: Image, factor: float) -> None:
+        """
+        Multiplies the alpha channel by a factor (In-Place).
+        
+        - factor: 0.0 (Fully Transparent) to 1.0 (No change). 
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/adjust/#opacity
+        """
+
+        adjust_opacity_f32(
+            image._buffer._handle,
+            image.width,
+            image.height,
+            float(factor)
         )

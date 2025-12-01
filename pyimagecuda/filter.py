@@ -1,6 +1,13 @@
 from .image import Image
 from .utils import ensure_capacity
-from .pyimagecuda_internal import gaussian_blur_separable_f32, sharpen_f32  #type: ignore
+from .pyimagecuda_internal import (gaussian_blur_separable_f32, #type: ignore
+                                   sharpen_f32,
+                                   sepia_f32,
+                                   invert_f32,
+                                   threshold_f32,
+                                   solarize_f32,
+                                   filter_sobel_f32,
+                                   filter_emboss_f32)
 
 
 class Filter:
@@ -78,4 +85,84 @@ class Filter:
             float(strength)
         )
         
+        return dst_buffer if return_buffer else None
+
+    @staticmethod
+    def sepia(image: Image, intensity: float = 1.0) -> None:
+        """
+        Applies Sepia tone (in-place).
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#sepia
+        """
+        
+        sepia_f32(image._buffer._handle, image.width, image.height, float(intensity))
+
+    @staticmethod
+    def invert(image: Image) -> None:
+        """
+        Inverts colors (Negative effect) in-place.
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#invert
+        """
+        invert_f32(image._buffer._handle, image.width, image.height)
+
+    @staticmethod
+    def threshold(image: Image, value: float = 0.5) -> None:
+        """
+        Converts to pure Black & White based on luminance threshold.
+        value: 0.0 to 1.0. Pixels brighter than value become white, others black.
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#threshold
+        """
+        threshold_f32(image._buffer._handle, image.width, image.height, float(value))
+
+    @staticmethod
+    def solarize(image: Image, threshold: float = 0.5) -> None:
+        """
+        Inverts only pixels brighter than threshold. Creates a psychedelic/retro look.
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#solarize
+        """
+        solarize_f32(image._buffer._handle, image.width, image.height, float(threshold))
+
+    @staticmethod
+    def sobel(src: Image, dst_buffer: Image | None = None) -> Image | None:
+        """
+        Detects edges using Sobel operator. Returns a black & white image with edges.
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#sobel
+        """
+        if dst_buffer is None:
+            dst_buffer = Image(src.width, src.height)
+            return_buffer = True
+        else:
+            ensure_capacity(dst_buffer, src.width, src.height)
+            return_buffer = False
+
+        filter_sobel_f32(
+            src._buffer._handle,
+            dst_buffer._buffer._handle,
+            src.width, src.height
+        )
+        return dst_buffer if return_buffer else None
+
+    @staticmethod
+    def emboss(src: Image, strength: float = 1.0, dst_buffer: Image | None = None) -> Image | None:
+        """
+        Applies Emboss (Relief) effect.
+
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#emboss
+        """
+        if dst_buffer is None:
+            dst_buffer = Image(src.width, src.height)
+            return_buffer = True
+        else:
+            ensure_capacity(dst_buffer, src.width, src.height)
+            return_buffer = False
+        
+        filter_emboss_f32(
+            src._buffer._handle,
+            dst_buffer._buffer._handle,
+            src.width, src.height, float(strength)
+        )
         return dst_buffer if return_buffer else None

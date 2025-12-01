@@ -63,17 +63,6 @@ Use when: Writing simple scripts or prototypes.
 ### 2. Explicit with Context Managers
 
 Immediate cleanup using `with` statements.
-```python
-from pyimagecuda import Image, Fill
-
-with Image(1920, 1080) as img:
-    Fill.color(img, (1, 0, 0, 1))
-    # Process image...
-# img is freed immediately here
-```
-
-Use when: Processing many images in loops or working with limited VRAM.
-
 Example - Batch Processing:
 ```python
 from pyimagecuda import load, save, Filter
@@ -106,13 +95,15 @@ Use when: You need precise control over when memory is released.
 
 All operations that create temporary buffers accept optional buffer parameters for zero-allocation workflows.
 
+Buffers can be larger than necessary but not smaller. If they are larger, their logical dimensions will be adapted within the function without any performance cost, but the original maximum size with which it was created will be maintained.
+
 ### Example: Gaussian Blur
 ```python
 from pyimagecuda import Image, Filter
 
 src = Image(1920, 1080)
 dst = Image(1920, 1080)
-temp = Image(1920, 1080)  # Reusable temporary buffer
+temp = Image(1920, 1080)
 
 # Process 100 images reusing the same buffers
 for i in range(100):
