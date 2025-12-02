@@ -9,8 +9,8 @@ Built for composition, not analysis - Focused on creative workflows, not edge de
 
 ## Quick Start
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Effect, Blend, Transform, save
@@ -32,7 +32,7 @@ with Image(1024, 1024) as bg:
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/quick.png" alt="quick" style="width: 100%;">
   </div>
 </div>

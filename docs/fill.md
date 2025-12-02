@@ -10,8 +10,8 @@ Fill an entire image with a solid color.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -22,7 +22,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_color.png" alt="Solid color fill" style="width: 100%;">
   </div>
 </div>
@@ -40,8 +40,8 @@ Fill an image with a smooth gradient between two colors.
 
 **Example - Horizontal Gradient:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -57,15 +57,15 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_gradient_horizontal.png" alt="Horizontal gradient" style="width: 100%;">
   </div>
 </div>
 
 **Example - Radial Gradient:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -81,7 +81,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_gradient_radial.png" alt="Radial gradient" style="width: 100%;">
   </div>
 </div>
@@ -96,8 +96,8 @@ save(img, 'output.png')
 
 **Example - Seamless Texture:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -114,7 +114,7 @@ save(texture, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_gradient_seamless.png" alt="Seamless gradient" style="width: 100%;">
   </div>
 </div>
@@ -127,8 +127,8 @@ Fill an image with a checkerboard pattern.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -144,7 +144,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_checkerboard.png" alt="Checkerboard pattern" style="width: 100%;">
   </div>
 </div>
@@ -166,8 +166,8 @@ Fill an image with a grid pattern.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -184,7 +184,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_grid.png" alt="Grid pattern" style="width: 100%;">
   </div>
 </div>
@@ -207,8 +207,8 @@ Fill an image with alternating stripes with anti-aliasing.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -226,7 +226,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_stripes.png" alt="Striped pattern" style="width: 100%;">
   </div>
 </div>
@@ -249,8 +249,8 @@ Fill an image with a polka dot pattern.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -268,7 +268,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_dots.png" alt="Polka dot pattern" style="width: 100%;">
   </div>
 </div>
@@ -292,8 +292,8 @@ Fill an image with a centered circle fitted to the image size.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -309,7 +309,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_circle.png" alt="Circle fill" style="width: 100%;">
   </div>
 </div>
@@ -329,8 +329,8 @@ Fill an image with random white noise.
 
 **Example - Monochrome Noise:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -345,15 +345,15 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_noise_mono.png" alt="Monochrome noise" style="width: 100%;">
   </div>
 </div>
 
 **Example - RGB Noise:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -368,7 +368,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_noise_rgb.png" alt="RGB noise" style="width: 100%;">
   </div>
 </div>
@@ -387,8 +387,8 @@ Fill an image with Perlin noise (gradient noise) for natural-looking textures.
 
 **Example - Simple Perlin:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -404,15 +404,15 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_perlin_simple.png" alt="Simple Perlin noise" style="width: 100%;">
   </div>
 </div>
 
 **Example - Detailed Perlin:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -432,7 +432,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_perlin_detailed.png" alt="Detailed Perlin noise" style="width: 100%;">
   </div>
 </div>
@@ -458,8 +458,8 @@ Fill an image with a regular polygon (triangle, pentagon, hexagon, etc.).
 
 **Example - Triangle:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -477,15 +477,15 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_ngon_triangle.png" alt="Triangle" style="width: 100%;">
   </div>
 </div>
 
 **Example - Hexagon with Glow:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, save
@@ -503,7 +503,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/fill_ngon_hexagon.png" alt="Hexagon with glow" style="width: 100%;">
   </div>
 </div>

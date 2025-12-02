@@ -10,8 +10,8 @@ Flips the image across the specified axis.
 
 **Example - Horizontal Flip:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Transform, save
@@ -24,7 +24,7 @@ save(flipped, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/transform_flip_horizontal.png" alt="Horizontal flip" style="width: 100%;">
   </div>
 </div>
@@ -45,8 +45,8 @@ Rotates the image by any angle in degrees (clockwise).
 
 **Example - Expand Mode (Default):**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Transform, save
@@ -60,15 +60,15 @@ save(rotated, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/transform_rotate_expand.png" alt="Rotate with expand" style="width: 100%;">
   </div>
 </div>
 
 **Example - No Expand Mode:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Transform, save
@@ -82,15 +82,15 @@ save(rotated, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/transform_rotate_no_expand.png" alt="Rotate without expand" style="width: 100%;">
   </div>
 </div>
 
 **Example - 90° Rotation (Optimized):**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Transform, save
@@ -104,7 +104,7 @@ save(rotated, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/transform_rotate_90.png" alt="90 degree rotation" style="width: 100%;">
   </div>
 </div>
@@ -135,8 +135,8 @@ Crops a rectangular region from the image.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Transform, save
@@ -156,15 +156,15 @@ save(cropped, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/transform_crop.png" alt="Cropped image" style="width: 100%;">
   </div>
 </div>
 
 **Example - Center Crop:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Transform, save
@@ -182,7 +182,7 @@ save(cropped, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/transform_crop_center.png" alt="Center crop" style="width: 100%;">
   </div>
 </div>

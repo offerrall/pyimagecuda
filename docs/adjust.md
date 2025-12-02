@@ -12,8 +12,8 @@ Adjusts image brightness by adding a factor to all RGB channels.
 
 **Example - Brighten:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Adjust, save
@@ -26,7 +26,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/adjust_brightness_up.png" alt="Brightened image" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -34,8 +34,8 @@ save(img, 'output.jpg')
 
 **Example - Darken:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Adjust, save
@@ -48,7 +48,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/adjust_brightness_down.png" alt="Darkened image" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -69,8 +69,8 @@ Adjusts image contrast relative to middle gray (0.5).
 
 **Example - Increase Contrast:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Adjust, save
@@ -83,7 +83,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/adjust_contrast_up.png" alt="High contrast" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -91,8 +91,8 @@ save(img, 'output.jpg')
 
 **Example - Decrease Contrast:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Adjust, save
@@ -105,7 +105,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/adjust_contrast_down.png" alt="Low contrast" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -129,8 +129,8 @@ Adjusts color intensity while preserving luminance.
 
 **Example - Increase Saturation:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Adjust, save
@@ -143,7 +143,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/adjust_saturation_up.png" alt="High saturation" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -151,8 +151,8 @@ save(img, 'output.jpg')
 
 **Example - Desaturate to Grayscale:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Adjust, save
@@ -165,7 +165,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/adjust_saturation_zero.png" alt="Grayscale" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -189,8 +189,8 @@ Adjusts gamma correction (non-linear brightness). Unlike brightness, gamma affec
 
 **Example - Brighten Midtones:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Adjust, save
@@ -203,7 +203,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/adjust_gamma_up.png" alt="Gamma brightened" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -211,8 +211,8 @@ save(img, 'output.jpg')
 
 **Example - Darken Midtones:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Adjust, save
@@ -225,7 +225,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/adjust_gamma_down.png" alt="Gamma darkened" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -249,8 +249,8 @@ Adjusts image opacity by multiplying the alpha channel.
 
 **Example - Semi-Transparent:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Adjust, save
@@ -263,7 +263,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/adjust_opacity_half.png" alt="50% opacity" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -271,8 +271,8 @@ save(img, 'output.png')
 
 **Example - Subtle Fade:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Adjust, save
@@ -285,7 +285,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/adjust_opacity_subtle.png" alt="80% opacity" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>

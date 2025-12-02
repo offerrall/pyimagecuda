@@ -10,8 +10,8 @@ Apply rounded corners to an image by modifying its alpha channel.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Effect, save
@@ -25,7 +25,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/effect_rounded.png" alt="Rounded corners" style="width: 100%;">
 
   </div>
@@ -48,8 +48,8 @@ Create a drop shadow effect with blur and offset.
 
 **Example - Expand Mode (Default):**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Effect, save
@@ -70,7 +70,7 @@ save(shadowed, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/effect_shadow_expand.png" alt="Drop shadow expanded" style="width: 100%;">
 
   </div>
@@ -78,8 +78,8 @@ save(shadowed, 'output.png')
 
 **Example - No Expand Mode:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Effect, save
@@ -101,7 +101,7 @@ save(shadowed, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/effect_shadow_no_expand.png" alt="Drop shadow no expand" style="width: 100%;">
 
   </div>
@@ -133,8 +133,8 @@ Add a stroke (outline) around the borders of shapes in an image.
 
 **Example - Outside Stroke (Default):**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Effect, save
@@ -156,7 +156,7 @@ save(stroked, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/effect_stroke_outside.png" alt="Stroke outside" style="width: 100%;">
 
   </div>
@@ -164,8 +164,8 @@ save(stroked, 'output.png')
 
 **Example - Inside Stroke:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Effect, save
@@ -187,7 +187,7 @@ save(stroked, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/effect_stroke_inside.png" alt="Stroke inside" style="width: 100%;">
 
   </div>
@@ -195,8 +195,8 @@ save(stroked, 'output.png')
 
 **Example - No Expand Mode:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Effect, save
@@ -216,7 +216,7 @@ save(stroked, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/effect_stroke_clipped.png" alt="Stroke clipped" style="width: 100%;">
 
   </div>
@@ -255,8 +255,8 @@ Apply a vignette effect to darken or colorize the edges of an image.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Effect, save
@@ -277,7 +277,7 @@ save(img, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/effect_vignette.png" alt="Vignette effect" style="width: 100%;">
 
   </div>

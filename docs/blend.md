@@ -14,8 +14,8 @@ Position overlays relative to common anchor points. By default, `anchor='top-lef
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Blend, save
@@ -31,7 +31,7 @@ save(base, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/blend_anchor.png" alt="Anchor positioning" style="width: 100%;">
   </div>
 </div>
@@ -46,8 +46,8 @@ Add pixel offsets from the anchor point for fine-tuning.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Blend, save
@@ -64,7 +64,7 @@ save(base, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/blend_offset.png" alt="Offset positioning" style="width: 100%;">
   </div>
 </div>
@@ -79,8 +79,8 @@ Standard alpha blending (Porter-Duff over operation).
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Blend, save
@@ -101,7 +101,7 @@ save(base, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/blend_normal.png" alt="Normal blend" style="width: 100%;">
   </div>
 </div>
@@ -116,8 +116,8 @@ Darkens the image by multiplying color values.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Blend, save
@@ -138,7 +138,7 @@ save(base, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/blend_multiply.png" alt="Multiply blend" style="width: 100%;">
   </div>
 </div>
@@ -153,8 +153,8 @@ Lightens the image (inverse of multiply).
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Blend, save
@@ -175,7 +175,7 @@ save(base, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/blend_screen.png" alt="Screen blend" style="width: 100%;">
   </div>
 </div>
@@ -190,8 +190,8 @@ Additive blending (colors add up, clamped to 1.0).
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Blend, save
@@ -212,7 +212,7 @@ save(base, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/blend_add.png" alt="Add blend" style="width: 100%;">
   </div>
 </div>
@@ -227,8 +227,8 @@ Combines Multiply and Screen modes to increase contrast. Darker values become da
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Blend, save
@@ -249,7 +249,7 @@ save(base, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/blend_overlay.png" alt="Overlay blend" style="width: 100%;">
   </div>
 </div>
@@ -264,8 +264,8 @@ Creates a gentle lighting effect, like shining a diffuse spotlight on the image.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Blend, save
@@ -286,7 +286,7 @@ save(base, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/blend_soft_light.png" alt="Soft Light blend" style="width: 100%;">
   </div>
 </div>
@@ -301,8 +301,8 @@ Creates a strong lighting effect, like shining a harsh spotlight on the image. M
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Blend, save
@@ -323,7 +323,7 @@ save(base, 'output.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/blend_hard_light.png" alt="Hard Light blend" style="width: 100%;">
   </div>
 </div>
@@ -341,8 +341,8 @@ Applies an image as an alpha mask to the base image, controlling transparency.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Image, Fill, Blend, save
@@ -374,7 +374,7 @@ with Image(BASE_W, BASE_H) as base:
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/blend_mask.png" alt="Mask blend" style="width: 100%;">
   </div>
 </div>

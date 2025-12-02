@@ -10,8 +10,8 @@ Apply Gaussian blur using a separable kernel (horizontal then vertical pass).
 
 **Example - Light Blur:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -24,7 +24,7 @@ save(blurred, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_blur_light.png" alt="Light blur" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -32,8 +32,8 @@ save(blurred, 'output.jpg')
 
 **Example - Heavy Blur:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -46,7 +46,7 @@ save(blurred, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_blur_heavy.png" alt="Heavy blur" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -72,8 +72,8 @@ Enhance image edges and details using unsharp mask.
 
 **Example - Subtle Sharpening:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -86,7 +86,7 @@ save(sharpened, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_sharpen_subtle.png" alt="Subtle sharpening" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -94,8 +94,8 @@ save(sharpened, 'output.jpg')
 
 **Example - Strong Sharpening:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -108,7 +108,7 @@ save(sharpened, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_sharpen_strong.png" alt="Strong sharpening" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -132,8 +132,8 @@ Apply a warm sepia tone effect to give images a vintage, antique look.
 
 **Example - Full Sepia:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -146,7 +146,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_sepia.png" alt="Sepia effect" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -154,8 +154,8 @@ save(img, 'output.jpg')
 
 **Example - Subtle Sepia:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -168,7 +168,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_sepia_subtle.png" alt="Subtle sepia" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -189,8 +189,8 @@ Invert all colors to create a photographic negative effect.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -203,7 +203,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_invert.png" alt="Inverted colors" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -223,8 +223,8 @@ Convert image to pure black and white based on luminance threshold.
 
 **Example - Medium Threshold:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -237,7 +237,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_threshold.png" alt="Threshold effect" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -245,8 +245,8 @@ save(img, 'output.jpg')
 
 **Example - Low Threshold (More White):**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -259,7 +259,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_threshold_low.png" alt="Low threshold" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -282,8 +282,8 @@ Create a psychedelic effect by inverting colors above a luminance threshold.
 
 **Example - Medium Threshold:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -296,7 +296,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_solarize.png" alt="Solarize effect" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -304,8 +304,8 @@ save(img, 'output.jpg')
 
 **Example - Low Threshold:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -318,7 +318,7 @@ save(img, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_solarize_low.png" alt="Solarize low threshold" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -341,8 +341,8 @@ Detect edges using the Sobel operator to create an edge map.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -355,7 +355,7 @@ save(edges, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_sobel.png" alt="Sobel edge detection" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -378,8 +378,8 @@ Apply an emboss (relief) effect to create a 3D raised appearance.
 
 **Example - Normal Strength:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -392,7 +392,7 @@ save(embossed, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_emboss.png" alt="Emboss effect" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>
@@ -400,8 +400,8 @@ save(embossed, 'output.jpg')
 
 **Example - Strong Emboss:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import load, Filter, save
@@ -414,7 +414,7 @@ save(embossed, 'output.jpg')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/filter_emboss_strong.png" alt="Strong emboss" style="width: 100%;">
     <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
   </div>

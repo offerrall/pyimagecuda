@@ -12,8 +12,8 @@ Render simple text with default styling.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Text, save
@@ -24,7 +24,7 @@ save(text_img, 'text_basic.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/text_basic.png" alt="Basic text" style="width: 100%;">
   </div>
 </div>
@@ -53,8 +53,8 @@ Use any system font by name. Combine font family with weight/style for variation
 
 **Example - Bold Font:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Text, save
@@ -70,7 +70,7 @@ save(text_img, 'text_bold.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/text_bold.png" alt="Bold font" style="width: 100%;">
   </div>
 </div>
@@ -90,8 +90,8 @@ Control foreground and background colors independently.
 
 **Example - Colored Text on Background:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Text, save
@@ -109,7 +109,7 @@ save(text_img, 'text_colors.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/text_colors.png" alt="Colored text" style="width: 100%;">
   </div>
 </div>
@@ -124,8 +124,8 @@ Align multi-line text left, center, or right.
 
 **Example - Center Aligned:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Text, save
@@ -141,15 +141,15 @@ save(text_img, 'text_align_centre.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/text_align_centre.png" alt="Center aligned" style="width: 100%;">
   </div>
 </div>
 
 **Example - Right Aligned:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Text, save
@@ -165,7 +165,7 @@ save(text_img, 'text_align_right.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/text_align_right.png" alt="Right aligned" style="width: 100%;">
   </div>
 </div>
@@ -180,8 +180,8 @@ Adjust horizontal space between characters.
 
 **Example - Wide Tracking:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Text, save
@@ -199,7 +199,7 @@ save(text_img, 'text_tracking.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/text_tracking.png" alt="Letter spacing" style="width: 100%;">
   </div>
 </div>
@@ -216,8 +216,8 @@ Control vertical distance between lines of text.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Text, save
@@ -233,7 +233,7 @@ save(text_img, 'text_spacing.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/text_spacing.png" alt="Line spacing" style="width: 100%;">
   </div>
 </div>
@@ -248,8 +248,8 @@ Use Pango markup for rich formatting within a single text block.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Text, save
@@ -266,7 +266,7 @@ save(text_img, 'text_markup.png')
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/text_markup.png" alt="Rich text markup" style="width: 100%;">
   </div>
 </div>
@@ -293,8 +293,8 @@ Combine text rendering with effects for polished UI elements.
 
 **Example:**
 
-<div style="display: flex; gap: 20px; align-items: start;">
-  <div style="flex: 1;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
 
 ```python
 from pyimagecuda import Text, Image, Fill, Blend, Effect, save
@@ -336,7 +336,7 @@ final.free()
 ```
 
   </div>
-  <div style="flex: 1;">
+  <div style="flex: 1; min-width: 300px;">
     <img src="https://offerrall.github.io/pyimagecuda/images/text_ui_button.png" alt="UI button" style="width: 100%;">
   </div>
 </div>
