@@ -1,7 +1,7 @@
 import ctypes
 import sys
 
-__version__ = "0.0.6"
+__version__ = "0.0.7"
 
 def _check_nvidia_driver():
     try:
@@ -37,7 +37,7 @@ except ImportError as e:
 if _INTERNAL_LOADED:
     try:
         from .image import Image, ImageU8
-        from .io import upload, download, copy, save, load, convert_float_to_u8, convert_u8_to_float
+        from .io import upload, download, copy, save, load, convert_float_to_u8, convert_u8_to_float, from_numpy, to_numpy
         from .fill import Fill
         from .resize import Resize
         from .blend import Blend
@@ -46,6 +46,7 @@ if _INTERNAL_LOADED:
         from .adjust import Adjust
         from .transform import Transform
         from .text import Text
+        from .pyimagecuda_internal import cuda_sync # type: ignore
     except ImportError as e:
         print(f"Warning: Error importing Python wrappers: {e}")
 

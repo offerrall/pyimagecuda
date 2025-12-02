@@ -1,9 +1,10 @@
-# PyImageCUDA 0.0.6
+# PyImageCUDA 0.0.7
 
 [![PyPI version](https://img.shields.io/pypi/v/pyimagecuda.svg)](https://pypi.org/project/pyimagecuda/)
 [![Build Status](https://github.com/offerrall/pyimagecuda/actions/workflows/build.yml/badge.svg)](https://github.com/offerrall/pyimagecuda/actions)
 ![Python](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12%20|%203.13-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-brightgreen)
+![Tests](https://img.shields.io/badge/tests-85%20passed-brightgreen)
 [![NVIDIA](https://img.shields.io/badge/NVIDIA-CUDA-76B900?style=flat&logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-zone)
 
 **GPU-accelerated image compositing for Python.**
@@ -74,6 +75,17 @@ pip install pyimagecuda
 * [Filter](https://offerrall.github.io/pyimagecuda/filter/) (Gaussian Blur, Sharpen, Sepia, Invert, Threshold, Solarize, Sobel, Emboss)
 * [Effect](https://offerrall.github.io/pyimagecuda/effect/) (Drop Shadow, Rounded Corners, Stroke, Vignette)
 
+## Performance
+
+PyImageCUDA shows significant speedups for GPU-friendly operations like blending, filtering, and transformations. Performance varies by operation complexity and workflow:
+
+- Complex operations (blur, blend, rotate) see **10-260x improvements**
+- Simple operations (flip, crop) see **3-20x improvements**  
+- Real-world pipelines with file I/O typically see **1.5-2.5x speedups**
+
+Results depend on your hardware, batch size, and whether you reuse GPU buffers.
+
+**[→ View Detailed Benchmarks](https://offerrall.github.io/pyimagecuda/benchmarks/)**
 
 ## Requirements
 
@@ -84,6 +96,25 @@ pip install pyimagecuda
 * **Drivers:** Standard NVIDIA Drivers installed.
 
 **NOT REQUIRED:** Visual Studio, CUDA Toolkit, or Conda.
+
+## Linux Compatibility & Troubleshooting
+
+PyImageCUDA is currently tested primarily on **Ubuntu LTS** releases with up-to-date NVIDIA drivers.
+
+If you encounter the following error on Linux:
+
+```text
+RuntimeError: Kernel launch failed: the provided PTX was compiled with an unsupported toolchain.
+```
+
+Solution: This indicates your installed NVIDIA drivers are too old to execute the kernels included in the library. Please update your NVIDIA drivers to the latest version available for your distribution (Proprietary drivers recommended).
+
+We are actively investigating ways to broaden compatibility for older drivers and legacy Linux distributions in future releases.
+
+## Tests
+```bash
+pytest tests/tests.py
+```
 
 ## Contributing
 Contributions welcome! Open issues or submit PRs

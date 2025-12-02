@@ -150,3 +150,9 @@ Converting from uint8: `(255, 128, 64)` → `(1.0, 0.501, 0.251, 1.0)`
 Reuse buffers in batch processing to avoid memory allocations. Buffers can also be dynamically resized within their capacity without reallocation.
 
 → [Full details: Image & Memory](image.md#buffer-reuse)
+
+---
+
+## Benchmarks & Performance Tips
+
+→ [Full details: Benchmarks & Performance Tips](benchmarks.md)

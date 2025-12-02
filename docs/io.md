@@ -135,6 +135,157 @@ How it works:
 
 ---
 
+## NumPy Integration
+
+PyImageCUDA provides native NumPy bridges for seamless interoperability with the Python ecosystem.
+
+!!! success "Works with OpenCV, Pillow, Matplotlib, and More!"
+    Since OpenCV (`cv2.imread()`), Pillow (`Image.open()`), Matplotlib, and most Python image libraries return NumPy arrays, you can use `from_numpy()` and `to_numpy()` to work with them all.
+
+### Basic Usage
+
+```python
+from pyimagecuda import from_numpy, to_numpy
+import numpy as np
+
+# NumPy → PyImageCUDA
+np_array = np.random.rand(1080, 1920, 4).astype(np.float32)
+img = from_numpy(np_array)
+
+# PyImageCUDA → NumPy
+result = to_numpy(img)  # Returns np.ndarray of shape (H, W, 4)
+```
+
+### Supported Input Formats
+
+`from_numpy()` automatically handles common array formats:
+
+```python
+# Grayscale (H, W) → RGBA
+gray = np.random.randint(0, 255, (1080, 1920), dtype=np.uint8)
+img = from_numpy(gray)  # Expands to RGBA: R=G=B, A=255
+
+# RGB (H, W, 3) → RGBA
+rgb = np.random.randint(0, 255, (1080, 1920, 3), dtype=np.uint8)
+img = from_numpy(rgb)  # Adds alpha channel: A=255
+
+# RGBA (H, W, 4) → RGBA
+rgba = np.random.rand(1080, 1920, 4).astype(np.float32)
+img = from_numpy(rgba)  # Direct upload
+
+# Supported dtypes: uint8 (0-255) or float32 (0.0-1.0)
+```
+
+**Conversion pipeline:**
+
+- **uint8 input:** Uploads as 4 bytes/pixel → GPU converts to float32 (optimized)
+- **float32 input:** Direct upload as 16 bytes/pixel (no conversion needed)
+
+---
+
+### OpenCV Integration
+
+```python
+import cv2
+from pyimagecuda import from_numpy, to_numpy, adjust_saturation
+
+# Load image with OpenCV
+cv_img = cv2.imread("photo.jpg")  # BGR uint8
+cv_img = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)  # Convert BGR → RGB
+
+# Process on GPU
+gpu_img = from_numpy(cv_img)
+adjust_saturation(gpu_img, 1.5)
+
+# Back to OpenCV
+result = to_numpy(gpu_img)
+result = (result[:, :, :3] * 255).astype(np.uint8)  # Float32 → uint8, drop alpha
+result = cv2.cvtColor(result, cv2.COLOR_RGB2BGR)  # RGB → BGR
+cv2.imwrite("output.jpg", result)
+```
+
+---
+
+### Pillow Integration
+
+```python
+from PIL import Image as PILImage
+from pyimagecuda import from_numpy, to_numpy, blur
+import numpy as np
+
+# Load with Pillow
+pil_img = PILImage.open("photo.jpg").convert("RGBA")
+np_array = np.array(pil_img)
+
+# Process on GPU
+gpu_img = from_numpy(np_array)
+blur(gpu_img, 10)
+
+# Back to Pillow
+result = to_numpy(gpu_img)
+result = (result * 255).astype(np.uint8)  # Float32 → uint8
+pil_result = PILImage.fromarray(result, mode="RGBA")
+pil_result.save("output.png")
+```
+
+---
+
+### Matplotlib Integration
+
+```python
+import matplotlib.pyplot as plt
+from pyimagecuda import from_numpy, to_numpy, adjust_exposure
+
+# Load from Matplotlib
+img_array = plt.imread("photo.png")  # Returns float32 [0.0, 1.0]
+
+# Process on GPU
+gpu_img = from_numpy(img_array)
+adjust_exposure(gpu_img, 0.5)
+
+# Display result
+result = to_numpy(gpu_img)
+plt.imshow(result)
+plt.show()
+```
+
+---
+
+### Buffer Reuse for Performance
+
+Reuse buffers to eliminate allocations in tight loops:
+
+```python
+from pyimagecuda import Image, ImageU8, from_numpy
+import cv2
+
+# Create reusable buffers
+f32_buffer = Image(1920, 1080)
+u8_buffer = ImageU8(1920, 1080)
+
+# Process video frames
+cap = cv2.VideoCapture("video.mp4")
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+    
+    # Reuses existing GPU memory
+    from_numpy(frame, f32_buffer=f32_buffer, u8_buffer=u8_buffer)
+    process(f32_buffer)
+    
+    result = to_numpy(f32_buffer)
+    cv2.imshow("Processed", (result[:, :, :3] * 255).astype(np.uint8))
+```
+
+**Benefits:**
+
+- Zero GPU allocations after first frame
+- Constant VRAM usage
+- Critical for real-time video processing
+
+---
+
 ## Low-Level Operations
 
 For advanced use cases, you can access the underlying conversion functions:
@@ -165,8 +316,7 @@ upload(img, raw_data)
 raw_data = download(img)  # Returns bytes
 ```
 
-!!! warning "Direct Upload/Download Uses Float32"
-    `upload()` and `download()` work directly with float32 data (16 bytes per pixel). For efficient file I/O, always use `load()` and `save()` instead, which handle uint8 ↔ float32 conversions automatically.
+"Raw Data Types" upload() and download() transfer raw bytes without conversion. * If using Image, data must be float32 (16 bytes per pixel). * If using ImageU8, data must be uint8 (4 bytes per pixel).
 
 ### Copy Between Buffers
 ```python
@@ -180,45 +330,6 @@ copy(dst, src)  # GPU-to-GPU copy (very fast)
 
 ---
 
-## Interoperability with Other Libraries
-
-While PyImageCUDA doesn't have built-in bridges to NumPy, PIL, or PyTorch yet, integration is straightforward using the low-level API:
-
-### Example: NumPy Integration
-```python
-import numpy as np
-from pyimagecuda import Image, upload, download
-
-# NumPy → PyImageCUDA
-np_array = np.random.rand(1080, 1920, 4).astype(np.float32)
-img = Image(1920, 1080)
-upload(img, np_array.tobytes())
-
-# PyImageCUDA → NumPy
-raw_bytes = download(img)
-np_array = np.frombuffer(raw_bytes, dtype=np.float32).reshape(1080, 1920, 4)
-```
-
-### Example: PIL Integration
-```python
-from PIL import Image as PILImage
-from pyimagecuda import Image, ImageU8, upload, convert_u8_to_float
-
-# PIL → PyImageCUDA
-pil_img = PILImage.open("photo.jpg").convert("RGBA")
-u8_buffer = ImageU8(pil_img.width, pil_img.height)
-f32_buffer = Image(pil_img.width, pil_img.height)
-
-upload(u8_buffer, pil_img.tobytes())
-convert_u8_to_float(f32_buffer, u8_buffer)
-
-# Now f32_buffer is ready for GPU operations
-```
-
-**Note:** Native bridges (e.g., `from_numpy()`, `to_pil()`) may be added in future versions based on user demand.
-
----
-
 ## Best Practices
 
 ### For Simple Scripts
@@ -227,6 +338,23 @@ convert_u8_to_float(f32_buffer, u8_buffer)
 img = load("input.jpg")
 process(img)
 save(img, "output.png")
+```
+
+### For NumPy/OpenCV/Pillow Workflows
+```python
+import cv2
+from pyimagecuda import from_numpy, to_numpy
+
+# Load with your preferred library
+frame = cv2.imread("photo.jpg")
+
+# Process on GPU
+gpu_img = from_numpy(frame)
+process(gpu_img)
+
+# Back to CPU
+result = to_numpy(gpu_img)
+cv2.imwrite("output.jpg", result)
 ```
 
 ### For Batch Processing
@@ -241,29 +369,45 @@ for file in files:
     save(f32, output_file, u8_buffer=u8)
 ```
 
-### For Video Frames
+### For Video Processing
 ```python
+import cv2
+from pyimagecuda import Image, ImageU8, from_numpy, to_numpy
+
 # Fixed-size buffers for consistent frame sizes
-frame = Image(1920, 1080)
+frame_buffer = Image(1920, 1080)
 u8_temp = ImageU8(1920, 1080)
 
-for i in range(num_frames):
-    load(f"frame_{i:04d}.png", f32_buffer=frame, u8_buffer=u8_temp)
-    process(frame)
-    save(frame, f"output_{i:04d}.png", u8_buffer=u8_temp)
+cap = cv2.VideoCapture("video.mp4")
+while cap.isOpened():
+    ret, frame = cap.read()
+    if not ret:
+        break
+    
+    from_numpy(frame, f32_buffer=frame_buffer, u8_buffer=u8_temp)
+    process(frame_buffer)
+    
+    result = to_numpy(frame_buffer)
+    cv2.imshow("Output", (result * 255).astype(np.uint8))
 ```
 
 ---
 
 ## Performance Notes
 
-Loading:
+**NumPy Integration:**
+
+- **uint8 arrays:** Uploads 4 bytes/pixel → GPU converts to float32 (<1ms for 1920×1080)
+- **float32 arrays:** Direct upload 16 bytes/pixel (no conversion)
+- **Download:** Always float32 → 16 bytes/pixel transfer
+
+**File Loading:**
 
 - pyvips decodes file to uint8 (CPU)
 - uint8 → GPU: **4 bytes/pixel** (1920×1080 = ~8MB transfer)
 - GPU converts uint8 → float32: **<1ms**
 
-Saving:
+**File Saving:**
 
 - GPU converts float32 → uint8: **<1ms**
 - uint8 → CPU: **4 bytes/pixel** (1920×1080 = ~8MB transfer)
@@ -271,8 +415,8 @@ Saving:
 
 **Why this is fast:**
 
-- CPU↔GPU transfers use uint8 (4× smaller than float32)
+- CPU↔GPU transfers prefer uint8 when possible (4× smaller than float32)
 - Conversions happen on GPU (massively parallel)
-- Disk I/O works with compressed uint8 data
+- NumPy bridge uses optimized upload/download paths
 
-**Tip:** For maximum throughput, use fast SSDs and consider parallel loading with threading.
+**Tip:** For maximum throughput with NumPy arrays, prefer uint8 input when possible, and use buffer reuse for batch processing.

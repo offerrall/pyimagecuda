@@ -58,6 +58,7 @@ nav:
   - Effect: effect.md
   - Adjust: adjust.md
   - Transform: transform.md
+  - Benchmarks: benchmarks.md
 
 plugins:
   - minify:

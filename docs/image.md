@@ -20,7 +20,7 @@ img = Image(width=1920, height=1080)
     Newly created images contain **uninitialized GPU memory** with random data. Always initialize before use with `Fill.color()` or load data explicitly.
 ```python
     img = Image(1920, 1080)
-    Fill.color(img, (0, 0, 0, 0))  # Clear to transparent black
+    Fill.color(img, (0, 0, 0, 0))  # Clear to transparent black, or use load() or other Fill functions
 ```
 
 **When to use:** All composition, effects, and color operations. This is your default choice.
@@ -88,6 +88,15 @@ img.free()  # Free immediately
 ```
 
 Use when: You need precise control over when memory is released.
+
+### 4. Handling Out of Memory
+
+When GPU memory is exhausted, you'll see:
+```python
+RuntimeError: CUDA malloc failed: out of memory
+```
+
+This is a **clear signal** that your GPU has run out of VRAM. Check your memory usage and consider freeing unused buffers or reducing workload size.
 
 ---
 
