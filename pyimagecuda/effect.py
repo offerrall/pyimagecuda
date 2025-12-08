@@ -26,6 +26,7 @@ class Effect:
         """
         max_radius = min(image.width, image.height) / 2.0
         if radius < 0: raise ValueError("Radius must be non-negative")
+        if radius == 0: return
         if radius > max_radius: radius = max_radius
         
         rounded_corners_f32(image._buffer._handle, image.width, image.height, float(radius))

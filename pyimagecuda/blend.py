@@ -45,6 +45,9 @@ class Blend:
 
         Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#normal
         """
+        if abs(opacity) < 1e-6:
+            return
+        
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,
@@ -75,6 +78,9 @@ class Blend:
 
         Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#multiply
         """
+        if abs(opacity) < 1e-6:
+            return
+        
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,
@@ -105,6 +111,9 @@ class Blend:
 
         Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#screen
         """
+        if abs(opacity) < 1e-6:
+            return
+        
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,
@@ -135,6 +144,9 @@ class Blend:
 
         Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#add
         """
+        if abs(opacity) < 1e-6:
+            return
+        
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,
@@ -165,6 +177,9 @@ class Blend:
         
         Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#overlay
         """
+        if abs(opacity) < 1e-6:
+            return
+        
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,
@@ -195,6 +210,9 @@ class Blend:
         
         Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#soft-light
         """
+        if abs(opacity) < 1e-6:
+            return
+        
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,
@@ -225,6 +243,9 @@ class Blend:
         
         Docs & Examples: https://offerrall.github.io/pyimagecuda/blend/#hard-light
         """
+        if abs(opacity) < 1e-6:
+            return
+        
         pos_x, pos_y = _calculate_position(
             base.width, base.height,
             overlay.width, overlay.height,

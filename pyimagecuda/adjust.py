@@ -19,6 +19,9 @@ class Adjust:
         
         Docs & Examples: https://offerrall.github.io/pyimagecuda/adjust/#brightness
         """
+        if abs(factor) < 1e-6:
+            return
+        
         adjust_brightness_f32(
             image._buffer._handle,
             image.width,
@@ -36,6 +39,9 @@ class Adjust:
         
         Docs & Examples: https://offerrall.github.io/pyimagecuda/adjust/#contrast
         """
+        if abs(factor - 1.0) < 1e-6:
+            return
+        
         adjust_contrast_f32(
             image._buffer._handle,
             image.width,
@@ -54,6 +60,9 @@ class Adjust:
         
         Docs & Examples: https://offerrall.github.io/pyimagecuda/adjust/#saturation
         """
+        if abs(factor - 1.0) < 1e-6:
+            return
+        
         adjust_saturation_f32(
             image._buffer._handle,
             image.width,
@@ -75,6 +84,9 @@ class Adjust:
         """
         if gamma <= 0:
             raise ValueError("Gamma must be positive")
+        
+        if abs(gamma - 1.0) < 1e-6:
+            return
             
         adjust_gamma_f32(
             image._buffer._handle,
@@ -92,6 +104,8 @@ class Adjust:
 
         Docs & Examples: https://offerrall.github.io/pyimagecuda/adjust/#opacity
         """
+        if abs(factor - 1.0) < 1e-6:
+            return
 
         adjust_opacity_f32(
             image._buffer._handle,

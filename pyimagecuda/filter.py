@@ -1,5 +1,6 @@
 from .image import Image
 from .utils import ensure_capacity
+from .io import copy
 from .pyimagecuda_internal import (gaussian_blur_separable_f32, #type: ignore
                                    sharpen_f32,
                                    sepia_f32,
@@ -25,6 +26,15 @@ class Filter:
 
         Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#gaussian-blur
         """
+
+        if radius == 0 or (sigma is not None and sigma <= 0.001):
+            if dst_buffer is None:
+                dst_buffer = Image(src.width, src.height)
+                copy(dst_buffer, src)
+                return dst_buffer
+            else:
+                copy(dst_buffer, src)
+                return None
 
         if sigma is None:
             sigma = radius / 3.0
@@ -70,6 +80,15 @@ class Filter:
         Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#sharpen
         """
 
+        if abs(strength) < 1e-6:
+            if dst_buffer is None:
+                dst_buffer = Image(src.width, src.height)
+                copy(dst_buffer, src)
+                return dst_buffer
+            else:
+                copy(dst_buffer, src)
+                return None
+
         if dst_buffer is None:
             dst_buffer = Image(src.width, src.height)
             return_buffer = True
@@ -94,6 +113,8 @@ class Filter:
         
         Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#sepia
         """
+        if abs(intensity) < 1e-6:
+            return
         
         sepia_f32(image._buffer._handle, image.width, image.height, float(intensity))
 
@@ -153,6 +174,15 @@ class Filter:
 
         Docs & Examples: https://offerrall.github.io/pyimagecuda/filter/#emboss
         """
+        if abs(strength) < 1e-6:
+            if dst_buffer is None:
+                dst_buffer = Image(src.width, src.height)
+                copy(dst_buffer, src)
+                return dst_buffer
+            else:
+                copy(dst_buffer, src)
+                return None
+
         if dst_buffer is None:
             dst_buffer = Image(src.width, src.height)
             return_buffer = True

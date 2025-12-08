@@ -3,6 +3,7 @@ from typing import Literal
 from .image import Image
 from .utils import ensure_capacity
 from .fill import Fill
+from .io import copy
 from .pyimagecuda_internal import ( #type: ignore
     flip_f32, crop_f32, rotate_fixed_f32, 
     rotate_arbitrary_f32, copy_buffer 
@@ -149,6 +150,15 @@ class Transform:
         """
         if width <= 0 or height <= 0:
             raise ValueError("Crop dimensions must be positive")
+
+        if x == 0 and y == 0 and width == image.width and height == image.height:
+            if dst_buffer is None:
+                dst_buffer = Image(width, height)
+                copy(dst_buffer, image)
+                return dst_buffer
+            else:
+                copy(dst_buffer, image)
+                return None
 
         if dst_buffer is None:
             dst_buffer = Image(width, height)

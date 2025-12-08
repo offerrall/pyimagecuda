@@ -1,4 +1,4 @@
-# PyImageCUDA 0.0.7
+# PyImageCUDA 0.0.8
 
 [![PyPI version](https://img.shields.io/pypi/v/pyimagecuda.svg)](https://pypi.org/project/pyimagecuda/)
 [![Build Status](https://github.com/offerrall/pyimagecuda/actions/workflows/build.yml/badge.svg)](https://github.com/offerrall/pyimagecuda/actions)

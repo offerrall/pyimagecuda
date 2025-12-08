@@ -1,6 +1,7 @@
 from .image import Image
 from .utils import ensure_capacity
 from .pyimagecuda_internal import resize_f32  #type: ignore
+from .io import copy
 
 
 def _resize_internal(
@@ -18,6 +19,17 @@ def _resize_internal(
     elif height is None:
         height = int(src.height * (width / src.width))
     
+    # No resize needed, just copy
+    if width == src.width and height == src.height:
+        if dst_buffer is None:
+            dst_buffer = Image(width, height)
+            copy(dst_buffer, src)
+            return dst_buffer
+        else:
+            copy(dst_buffer, src)
+            return None
+    
+    # Resize normal
     if dst_buffer is None:
         dst_buffer = Image(width, height)
         return_buffer = True
