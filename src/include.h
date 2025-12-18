@@ -44,6 +44,11 @@ PyObject* py_upload_to_buffer(PyObject* self, PyObject* args);
 PyObject* py_convert_f32_to_u8(PyObject* self, PyObject* args);
 PyObject* py_convert_u8_to_f32(PyObject* self, PyObject* args);
 
+// gl_interop.cu
+PyObject* py_copy_to_gl_pbo(PyObject* self, PyObject* args);
+PyObject* py_register_gl_pbo(PyObject* self, PyObject* args);
+PyObject* py_unregister_gl_resource(PyObject* self, PyObject* args);
+
 // efffects
 // extract_alpha_and_colorize.cu
 PyObject* py_colorize_alpha_mask_f32(PyObject* self, PyObject* args);

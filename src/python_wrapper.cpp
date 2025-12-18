@@ -41,6 +41,11 @@ static PyMethodDef all_methods[] = {
     {"convert_f32_to_u8", py_convert_f32_to_u8, METH_VARARGS, "Convert F32 To U8"},
     {"convert_u8_to_f32", py_convert_u8_to_f32, METH_VARARGS, "Convert U8 To F32"},
 
+    // gl_interop.cu
+    {"copy_to_gl_pbo", py_copy_to_gl_pbo, METH_VARARGS, "Copy To Gl Pbo"},
+    {"register_gl_pbo", py_register_gl_pbo, METH_VARARGS, "Register Gl Pbo"},
+    {"unregister_gl_resource", py_unregister_gl_resource, METH_VARARGS, "Unregister Gl Resource"},
+
 
     // efffects
     // extract_alpha_and_colorize.cu

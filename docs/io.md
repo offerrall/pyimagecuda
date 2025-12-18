@@ -133,6 +133,30 @@ How it works:
 2. Downloads from GPU to CPU
 3. Encodes and writes to disk
 
+### Saving U8 Images Directly
+
+When you've manually converted an image to uint8 for another purpose (e.g., OpenGL display, external library) and also want to save it to disk:
+```python
+from pyimagecuda import Image, ImageU8, convert_float_to_u8, save_u8
+
+f32_img = Image(1920, 1080)
+u8_img = ImageU8(1920, 1080)
+
+# Process in float32
+process(f32_img)
+
+# Convert once for multiple uses
+convert_float_to_u8(u8_img, f32_img)
+
+# Use u8_img for display, OpenGL, etc.
+display_opengl(u8_img)
+
+# Save the same u8 buffer
+save_u8(u8_img, "output.png")
+```
+
+**Note:** Most workflows use `save()` directly with float32 images. This function eliminates redundant conversion when you already have the uint8 buffer.
+
 ---
 
 ## NumPy Integration

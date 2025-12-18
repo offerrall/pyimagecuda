@@ -1,4 +1,4 @@
-# PyImageCUDA 0.0.8
+# PyImageCUDA 0.0.9
 
 [![PyPI version](https://img.shields.io/pypi/v/pyimagecuda.svg)](https://pypi.org/project/pyimagecuda/)
 [![Build Status](https://github.com/offerrall/pyimagecuda/actions/workflows/build.yml/badge.svg)](https://github.com/offerrall/pyimagecuda/actions)
@@ -38,6 +38,7 @@ with Image(1024, 1024) as bg:
 * ✅ **Ultra-lightweight:** library weighs **~1 MB**.
 * ✅ **Studio Quality:** 32-bit floating-point precision (float32) to prevent color banding.
 * ✅ **Advanced Memory Control:** Reuse GPU buffers across operations and resize without reallocation—critical for video processing and batch workflows.
+* ✅ **OpenGL Integration:** Direct GPU-to-GPU display for real-time preview widgets.
 * ✅ **API Simplicity:** Intuitive, Pythonic API designed for ease of use.
 
 ## Use Cases
@@ -45,6 +46,7 @@ with Image(1024, 1024) as bg:
 * **Generative Art:** Create thousands of unique variations in seconds.
 * **Motion Graphics:** Process video frames or generate effects in real-time.
 * **Image Compositing:** Complex multi-layer designs with GPU-accelerated effects.
+* **Node Editors & Real-time Tools:** Build responsive image editors with instant preview.
 * **Game Development:** Procedural UI assets, icons, and sprite generation.
 * **Marketing Automation:** Mass-produce personalized graphics from templates.
 * **Data Augmentation:** High-speed batch transformations for ML datasets.
@@ -64,6 +66,7 @@ pip install pyimagecuda
 * [Getting Started Guide](https://offerrall.github.io/pyimagecuda/)
 * [Image & Memory](https://offerrall.github.io/pyimagecuda/image/) (Buffer management)
 * [IO](https://offerrall.github.io/pyimagecuda/io/) (Loading and Saving)
+* [OpenGL Integration](https://offerrall.github.io/pyimagecuda/opengl/) (Real-time preview, zero-copy display)
 
 ### Operations
 * [Fill](https://offerrall.github.io/pyimagecuda/fill/) (Solid colors, Gradients, Checkerboard, Grid, Stripes, Dots, Circle, Ngon, Noise, Perlin)

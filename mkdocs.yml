@@ -50,6 +50,7 @@ nav:
   - Home: index.md
   - Image: image.md
   - Load and Save: io.md
+  - OpenGL: opengl.md
   - Fill: fill.md
   - Text: text.md
   - Blend: blend.md
