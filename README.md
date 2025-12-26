@@ -51,6 +51,23 @@ with Image(1024, 1024) as bg:
 * **Marketing Automation:** Mass-produce personalized graphics from templates.
 * **Data Augmentation:** High-speed batch transformations for ML datasets.
 
+## PyImageCUDA Ecosystem
+
+This library is the foundation. For visual workflows:
+
+**[PyImageCUDA Studio](https://github.com/offerrall/pyimagecuda-studio)**
+- Node-based image compositor with real-time preview
+- Design templates visually, automate with Python
+- 40+ nodes: generators, effects, filters, transforms
+- Headless batch processing API
+```bash
+pip install pyimagecuda-studio
+```
+
+---
+
+## Installation
+
 ## Installation
 ```bash
 pip install pyimagecuda
