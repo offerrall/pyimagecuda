@@ -60,8 +60,6 @@ pip install pyimagecuda
 
 ## Documentation
 
-**⚠️ Alpha Release:** Many more features are planned and under development. If you have specific needs or bug reports, please open an issue on GitHub.
-
 ### Core Concepts
 * [Getting Started Guide](https://offerrall.github.io/pyimagecuda/)
 * [Image & Memory](https://offerrall.github.io/pyimagecuda/image/) (Buffer management)
