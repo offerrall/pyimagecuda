@@ -1,7 +1,6 @@
 import math
 from typing import Literal
 from .image import Image
-from .utils import ensure_capacity
 from .fill import Fill
 from .io import copy
 from .pyimagecuda_internal import ( #type: ignore
@@ -38,7 +37,7 @@ class Transform:
             dst_buffer = Image(image.width, image.height)
             return_buffer = True
         else:
-            ensure_capacity(dst_buffer, image.width, image.height)
+            dst_buffer.resize(image.width, image.height)
             return_buffer = False
             
         flip_f32(
@@ -65,7 +64,8 @@ class Transform:
         """
         
         norm_angle = angle % 360
-        if norm_angle < 0: norm_angle += 360
+        if norm_angle < 0:
+            norm_angle += 360
         
         is_fixed = False
         fixed_mode = 0
@@ -75,21 +75,29 @@ class Transform:
                 dst_buffer = Image(image.width, image.height)
                 return_buffer = True
             else:
-                ensure_capacity(dst_buffer, image.width, image.height)
+                dst_buffer.resize(image.width, image.height)
                 return_buffer = False
             
             copy_buffer(dst_buffer._buffer._handle, image._buffer._handle, image.width, image.height)
             return dst_buffer if return_buffer else None
 
-        elif abs(norm_angle - 90) < 0.01: is_fixed = True; fixed_mode = 0
-        elif abs(norm_angle - 180) < 0.01: is_fixed = True; fixed_mode = 1
-        elif abs(norm_angle - 270) < 0.01: is_fixed = True; fixed_mode = 2
+        elif abs(norm_angle - 90) < 0.01:
+            is_fixed = True
+            fixed_mode = 0
+        elif abs(norm_angle - 180) < 0.01:
+            is_fixed = True
+            fixed_mode = 1
+        elif abs(norm_angle - 270) < 0.01:
+            is_fixed = True
+            fixed_mode = 2
         
         if is_fixed:
             if fixed_mode == 1:
-                rot_w, rot_h = image.width, image.height
+                rot_w = image.width
+                rot_h = image.height
             else: 
-                rot_w, rot_h = image.height, image.width
+                rot_w = image.height
+                rot_h = image.width
         else:
             rads = math.radians(angle)
             sin_a = abs(math.sin(rads))
@@ -112,7 +120,7 @@ class Transform:
             dst_buffer = Image(final_w, final_h)
             return_buffer = True
         else:
-            ensure_capacity(dst_buffer, final_w, final_h)
+            dst_buffer.resize(final_w, final_h)
             return_buffer = False
 
         if is_fixed:
@@ -164,7 +172,7 @@ class Transform:
             dst_buffer = Image(width, height)
             return_buffer = True
         else:
-            ensure_capacity(dst_buffer, width, height)
+            dst_buffer.resize(width, height)
             return_buffer = False
 
         Fill.color(dst_buffer, (0.0, 0.0, 0.0, 0.0))
@@ -173,7 +181,8 @@ class Transform:
         crop_top = y
         crop_right = x + width
         crop_bottom = y + height
-        img_right, img_bottom = image.width, image.height
+        img_right = image.width
+        img_bottom = image.height
         
         intersect_left = max(crop_left, 0)
         intersect_top = max(crop_top, 0)

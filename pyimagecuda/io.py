@@ -1,8 +1,7 @@
 import pyvips
 
-from .pyimagecuda_internal import upload_to_buffer, convert_f32_to_u8, convert_u8_to_f32, download_from_buffer, copy_buffer  #type: ignore
+from .pyimagecuda_internal import upload_to_buffer, convert_f32_to_u8, convert_u8_to_f32, download_from_buffer, copy_buffer #type: ignore
 from .image import Image, ImageU8, ImageBase
-from .utils import ensure_capacity
 
 try:
     import numpy as np
@@ -40,7 +39,7 @@ def copy(dst: ImageBase, src: ImageBase) -> None:
 
     Docs & Examples: https://offerrall.github.io/pyimagecuda/io/#copy-between-buffers
     """
-    ensure_capacity(dst, src.width, src.height)
+    dst.resize(src.width, src.height)
     copy_buffer(dst._buffer._handle, src._buffer._handle, src.width, src.height)
 
 
@@ -50,7 +49,7 @@ def convert_float_to_u8(dst: ImageU8, src: Image) -> None:
 
     Docs & Examples: https://offerrall.github.io/pyimagecuda/io/#manual-conversions
     """
-    ensure_capacity(dst, src.width, src.height)
+    dst.resize(src.width, src.height)
     convert_f32_to_u8(dst._buffer._handle, src._buffer._handle, src.width, src.height)
 
 
@@ -60,7 +59,7 @@ def convert_u8_to_float(dst: Image, src: ImageU8) -> None:
 
     Docs & Examples: https://offerrall.github.io/pyimagecuda/io/#manual-conversions
     """
-    ensure_capacity(dst, src.width, src.height)
+    dst.resize(src.width, src.height)
     convert_u8_to_f32(dst._buffer._handle, src._buffer._handle, src.width, src.height)
 
 
@@ -98,14 +97,14 @@ def load(
         f32_buffer = Image(width, height)
         should_return = True
     else:
-        ensure_capacity(f32_buffer, width, height)
+        f32_buffer.resize(width, height)
         should_return = False
 
     if u8_buffer is None:
         u8_buffer = ImageU8(width, height)
         owns_u8 = True
     else:
-        ensure_capacity(u8_buffer, width, height)
+        u8_buffer.resize(width, height)
         owns_u8 = False
 
     vips_img = vips_img.cast('uchar')
@@ -156,7 +155,7 @@ def save(image: Image, filepath: str, u8_buffer: ImageU8 | None = None, quality:
         u8_buffer = ImageU8(image.width, image.height)
         owns_buffer = True
     else:
-        ensure_capacity(u8_buffer, image.width, image.height)
+        u8_buffer.resize(image.width, image.height)
         owns_buffer = False
     
     convert_float_to_u8(u8_buffer, image)
@@ -220,7 +219,7 @@ def from_numpy(array, f32_buffer: Image | None = None, u8_buffer: ImageU8 | None
         f32_buffer = Image(width, height)
         should_return = True
     else:
-        ensure_capacity(f32_buffer, width, height)
+        f32_buffer.resize(width, height)
 
     if array.dtype == np.uint8:
         owns_u8 = False
@@ -228,7 +227,7 @@ def from_numpy(array, f32_buffer: Image | None = None, u8_buffer: ImageU8 | None
             u8_buffer = ImageU8(width, height)
             owns_u8 = True
         else:
-            ensure_capacity(u8_buffer, width, height)
+            u8_buffer.resize(width, height)
 
         upload(u8_buffer, array.tobytes())
         convert_u8_to_float(f32_buffer, u8_buffer)

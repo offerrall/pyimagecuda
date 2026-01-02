@@ -1,14 +1,15 @@
 from .image import Image
-from .utils import ensure_capacity
 from .io import copy
-from .pyimagecuda_internal import (gaussian_blur_separable_f32, #type: ignore
-                                   sharpen_f32,
-                                   sepia_f32,
-                                   invert_f32,
-                                   threshold_f32,
-                                   solarize_f32,
-                                   filter_sobel_f32,
-                                   filter_emboss_f32)
+from .pyimagecuda_internal import ( #type: ignore
+    gaussian_blur_separable_f32,
+    sharpen_f32,
+    sepia_f32,
+    invert_f32,
+    threshold_f32,
+    solarize_f32,
+    filter_sobel_f32,
+    filter_emboss_f32
+)
 
 
 class Filter:
@@ -43,14 +44,14 @@ class Filter:
             dst_buffer = Image(src.width, src.height)
             return_dst = True
         else:
-            ensure_capacity(dst_buffer, src.width, src.height)
+            dst_buffer.resize(src.width, src.height)
             return_dst = False
 
         if temp_buffer is None:
             temp_buffer = Image(src.width, src.height)
             owns_temp = True
         else:
-            ensure_capacity(temp_buffer, src.width, src.height)
+            temp_buffer.resize(src.width, src.height)
             owns_temp = False
 
         gaussian_blur_separable_f32(
@@ -93,7 +94,7 @@ class Filter:
             dst_buffer = Image(src.width, src.height)
             return_buffer = True
         else:
-            ensure_capacity(dst_buffer, src.width, src.height)
+            dst_buffer.resize(src.width, src.height)
             return_buffer = False
         
         sharpen_f32(
@@ -157,7 +158,7 @@ class Filter:
             dst_buffer = Image(src.width, src.height)
             return_buffer = True
         else:
-            ensure_capacity(dst_buffer, src.width, src.height)
+            dst_buffer.resize(src.width, src.height)
             return_buffer = False
 
         filter_sobel_f32(
@@ -187,7 +188,7 @@ class Filter:
             dst_buffer = Image(src.width, src.height)
             return_buffer = True
         else:
-            ensure_capacity(dst_buffer, src.width, src.height)
+            dst_buffer.resize(src.width, src.height)
             return_buffer = False
         
         filter_emboss_f32(

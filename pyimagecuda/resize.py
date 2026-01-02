@@ -1,6 +1,5 @@
 from .image import Image
-from .utils import ensure_capacity
-from .pyimagecuda_internal import resize_f32  #type: ignore
+from .pyimagecuda_internal import resize_f32 #type: ignore
 from .io import copy
 
 
@@ -34,7 +33,7 @@ def _resize_internal(
         dst_buffer = Image(width, height)
         return_buffer = True
     else:
-        ensure_capacity(dst_buffer, width, height)
+        dst_buffer.resize(width, height)
         return_buffer = False
     
     resize_f32(

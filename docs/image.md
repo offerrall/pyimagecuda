@@ -144,22 +144,12 @@ from pyimagecuda import Image
 img = Image(1920, 1080)
 
 # Can logically resize within capacity
-img.width = 1280
-img.height = 720
+img.resize(1280, 720)
 
 # Check capacity
-max_w, max_h = img.get_max_capacity()
-print(f"Capacity: {max_w}×{max_h}")  # 1920×1080
+max_pixels = img.get_max_capacity()
+print(f"Capacity: {max_pixels:,} pixels")  # 2,073,600 pixels (1920×1080)
 print(f"Current: {img.width}×{img.height}")  # 1280×720
-```
-
-Use case: Loading variable-sized images into fixed buffers.
-```python
-buffer = Image(4096, 4096)  # Max capacity
-
-for filename in images:
-    load(filename, f32_buffer=buffer)  # Adjusts buffer dimensions
-    process(buffer)
 ```
 
 ---

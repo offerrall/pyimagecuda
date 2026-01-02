@@ -3,7 +3,6 @@ import pyvips
 
 from .image import Image, ImageU8
 from .io import upload, convert_u8_to_float
-from .utils import ensure_capacity
 
 class Text:
     @staticmethod
@@ -86,7 +85,7 @@ class Text:
             result = Image(w, h)
             return_result = True
         else:
-            ensure_capacity(dst_buffer, w, h)
+            dst_buffer.resize(w, h)
             result = dst_buffer
             return_result = False
 
@@ -94,7 +93,7 @@ class Text:
             u8_temp = ImageU8(w, h)
             free_u8 = True
         else:
-            ensure_capacity(u8_buffer, w, h)
+            u8_buffer.resize(w, h)
             u8_temp = u8_buffer
             free_u8 = False
         
