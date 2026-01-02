@@ -7,7 +7,6 @@ from pyimagecuda import (
     Image, ImageU8, Fill, Filter, Adjust, Transform, Resize, Blend, Effect,
     load, save, upload, download, copy, convert_float_to_u8, convert_u8_to_float
 )
-from pyimagecuda.utils import ensure_capacity
 
 
 # ============================================================================
@@ -131,35 +130,29 @@ class TestBufferCapacity:
     
     def test_get_max_capacity(self):
         img = Image(1024, 768)
-        max_w, max_h = img.get_max_capacity()
+        max_pixels = img.get_max_capacity()
         
-        assert max_w == 1024
-        assert max_h == 768
+        assert max_pixels == 1024 * 768
         img.free()
     
     def test_resize_within_capacity(self):
         img = Image(1024, 1024)
         
-        img.width = 512
-        img.height = 512
+        img.resize(512, 512)
         
         assert img.width == 512
         assert img.height == 512
         
-        max_w, max_h = img.get_max_capacity()
-        assert max_w == 1024
-        assert max_h == 1024
+        max_pixels = img.get_max_capacity()
+        assert max_pixels == 1024 * 1024
         
         img.free()
     
     def test_resize_exceeds_capacity_fails(self):
         img = Image(512, 512)
         
-        with pytest.raises(ValueError, match="exceeds buffer capacity"):
-            img.width = 1024
-        
-        with pytest.raises(ValueError, match="exceeds buffer capacity"):
-            img.height = 1024
+        with pytest.raises(ValueError, match="exceed buffer capacity"):
+            img.resize(1024, 1024)
         
         img.free()
     
@@ -167,10 +160,10 @@ class TestBufferCapacity:
         img = Image(512, 512)
         
         with pytest.raises(ValueError, match="must be positive"):
-            img.width = 0
+            img.resize(0, 512)
         
         with pytest.raises(ValueError, match="must be positive"):
-            img.height = 0
+            img.resize(512, 0)
         
         img.free()
     
@@ -178,10 +171,10 @@ class TestBufferCapacity:
         img = Image(512, 512)
         
         with pytest.raises(ValueError, match="must be positive"):
-            img.width = -100
+            img.resize(-100, 512)
         
         with pytest.raises(ValueError, match="must be positive"):
-            img.height = -100
+            img.resize(512, -100)
         
         img.free()
     
@@ -191,10 +184,31 @@ class TestBufferCapacity:
         sizes = [(512, 512), (256, 768), (1024, 512), (100, 100), (1024, 1024)]
         
         for w, h in sizes:
-            img.width = w
-            img.height = h
+            img.resize(w, h)
             assert img.width == w
             assert img.height == h
+        
+        img.free()
+    
+    def test_resize_different_aspect_ratios(self):
+        img = Image(1920, 1080)
+        max_pixels = 1920 * 1080
+        
+        # Same total pixels, different aspect ratios
+        img.resize(3840, 540)
+        assert img.width == 3840
+        assert img.height == 540
+        assert img.get_max_capacity() == max_pixels
+        
+        img.resize(2160, 960)
+        assert img.width == 2160
+        assert img.height == 960
+        assert img.get_max_capacity() == max_pixels
+        
+        img.resize(1080, 1920)
+        assert img.width == 1080
+        assert img.height == 1920
+        assert img.get_max_capacity() == max_pixels
         
         img.free()
 
@@ -206,8 +220,7 @@ class TestBufferCapacity:
 class TestBufferReuse:
     
     def test_buffer_reuse_same_size(self, reusable_buffer):
-        reusable_buffer.width = 512
-        reusable_buffer.height = 512
+        reusable_buffer.resize(512, 512)
         Fill.color(reusable_buffer, (1.0, 0.0, 0.0, 1.0))
         
         Fill.color(reusable_buffer, (0.0, 1.0, 0.0, 1.0))
@@ -219,8 +232,7 @@ class TestBufferReuse:
         sizes = [(512, 512), (256, 768), (1024, 512), (100, 100)]
         
         for w, h in sizes:
-            reusable_buffer.width = w
-            reusable_buffer.height = h
+            reusable_buffer.resize(w, h)
             Fill.color(reusable_buffer, (1.0, 0.0, 0.0, 1.0))
             
             assert reusable_buffer.width == w
@@ -229,8 +241,7 @@ class TestBufferReuse:
     def test_buffer_reuse_with_operations(self, reusable_buffer):
         for i in range(10):
             size = 256 + i * 64
-            reusable_buffer.width = size
-            reusable_buffer.height = size
+            reusable_buffer.resize(size, size)
             
             Fill.color(reusable_buffer, (1.0, 0.0, 0.0, 1.0))
             Filter.invert(reusable_buffer)
@@ -239,8 +250,7 @@ class TestBufferReuse:
     
     def test_buffer_reuse_stress(self, reusable_buffer):
         for _ in range(1000):
-            reusable_buffer.width = 512
-            reusable_buffer.height = 512
+            reusable_buffer.resize(512, 512)
             Fill.color(reusable_buffer, (1.0, 0.0, 0.0, 1.0))
 
 
@@ -265,7 +275,7 @@ class TestMemoryLeaks:
         
         for _ in range(100):
             try:
-                img.width = 9999
+                img.resize(9999, 9999)
             except ValueError:
                 pass
         
@@ -308,8 +318,7 @@ class TestOperationsMemory:
         blurred.free()
     
     def test_operations_with_dst_buffer(self, medium_image, reusable_buffer):
-        reusable_buffer.width = medium_image.width
-        reusable_buffer.height = medium_image.height
+        reusable_buffer.resize(medium_image.width, medium_image.height)
         
         result = Filter.gaussian_blur(medium_image, radius=5, dst_buffer=reusable_buffer)
         
@@ -324,38 +333,6 @@ class TestOperationsMemory:
         Transform.flip(medium_image, direction='horizontal', dst_buffer=reusable_buffer)
         
         assert reusable_buffer.width == medium_image.width
-
-
-# ============================================================================
-# BUFFER VALIDATION
-# ============================================================================
-
-class TestBufferValidation:
-    
-    def test_insufficient_buffer_capacity_fails(self):
-        small_buffer = Image(256, 256)
-        
-        with pytest.raises(ValueError, match="capacity too small"):
-            ensure_capacity(small_buffer, 512, 512)
-        
-        small_buffer.free()
-    
-    def test_ensure_capacity_updates_dimensions(self):
-        buffer = Image(1024, 1024)
-        ensure_capacity(buffer, 512, 512)
-        
-        assert buffer.width == 512
-        assert buffer.height == 512
-        
-        buffer.free()
-    
-    def test_operations_validate_buffer_capacity(self, small_image):
-        tiny_buffer = Image(32, 32)
-        
-        with pytest.raises(ValueError):
-            Filter.gaussian_blur(small_image, radius=5, dst_buffer=tiny_buffer)
-        
-        tiny_buffer.free()
 
 
 # ============================================================================
@@ -437,7 +414,7 @@ class TestIOMemory:
         src = Image(512, 512)
         dst = Image(256, 256)
         
-        with pytest.raises(ValueError, match="capacity too small"):
+        with pytest.raises(ValueError, match="exceed buffer capacity"):
             copy(dst, src)
         
         src.free()
@@ -469,6 +446,7 @@ class TestConversionMemory:
         f32 = Image(256, 256)
         u8 = ImageU8(1024, 1024)
         
+        u8.resize(256, 256)
         convert_float_to_u8(u8, f32)
         
         assert u8.width == 256
@@ -497,9 +475,8 @@ class TestErrorHandling:
         Fill.color(base, (1.0, 0.0, 0.0, 1.0))
         Fill.color(overlay, (0.0, 1.0, 0.0, 1.0))
         
-
         Blend.normal(base, overlay, anchor='invalid')
-
+        
         assert base.width == 512
     
     def test_invalid_gradient_direction(self, medium_image):
@@ -657,8 +634,7 @@ class TestRegressionBugs:
         buffer = Image(1024, 1024)
         
         for i in range(1000):
-            buffer.width = 512 + (i % 100)
-            buffer.height = 512 + (i % 100)
+            buffer.resize(512 + (i % 100), 512 + (i % 100))
             Fill.color(buffer, (1.0, 0.0, 0.0, 1.0))
         
         buffer.free()
@@ -798,8 +774,7 @@ class TestBatchProcessing:
                 tmp_path = tmp.name
                 files.append(tmp_path)
             
-            f32_buffer.width = 256
-            f32_buffer.height = 256
+            f32_buffer.resize(256, 256)
             Fill.color(f32_buffer, (float(i) / 10, 0.5, 0.5, 1.0))
             save(f32_buffer, tmp_path, u8_buffer=u8_buffer)
         
@@ -829,8 +804,7 @@ class TestStress:
         for i in range(10000):
             w = 64 + (i % 1984)
             h = 64 + (i % 1984)
-            buffer.width = w
-            buffer.height = h
+            buffer.resize(w, h)
             Fill.color(buffer, (1.0, 0.0, 0.0, 1.0))
         
         buffer.free()
