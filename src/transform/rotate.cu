@@ -11,6 +11,13 @@ enum RotateMode {
     ROTATE_270_CW = 2
 };
 
+enum InterpolationMethod {
+    INTERP_NEAREST = 0,
+    INTERP_BILINEAR = 1,
+    INTERP_BICUBIC = 2,
+    INTERP_LANCZOS = 3
+};
+
 __global__ void rotate_fixed_kernel(
     const float4* __restrict__ src,
     float4* __restrict__ dst,
@@ -109,53 +116,6 @@ PyObject* py_rotate_fixed_f32(PyObject* self, PyObject* args) {
     Py_RETURN_NONE;
 }
 
-__device__ __forceinline__ float4 sample_bilinear(
-    const float4* src,
-    int width,
-    int height,
-    float u,
-    float v
-) {
-    int x0 = (int)floorf(u);
-    int y0 = (int)floorf(v);
-    int x1 = x0 + 1;
-    int y1 = y0 + 1;
-
-    float wx = u - (float)x0;
-    float wy = v - (float)y0;
-
-    x0 = max(0, min(x0, width - 1));
-    y0 = max(0, min(y0, height - 1));
-    x1 = max(0, min(x1, width - 1));
-    y1 = max(0, min(y1, height - 1));
-
-    float4 p00 = src[y0 * width + x0];
-    float4 p10 = src[y0 * width + x1];
-    float4 p01 = src[y1 * width + x0];
-    float4 p11 = src[y1 * width + x1];
-
-    float4 top = make_float4(
-        p00.x * (1 - wx) + p10.x * wx,
-        p00.y * (1 - wx) + p10.y * wx,
-        p00.z * (1 - wx) + p10.z * wx,
-        p00.w * (1 - wx) + p10.w * wx
-    );
-
-    float4 bottom = make_float4(
-        p01.x * (1 - wx) + p11.x * wx,
-        p01.y * (1 - wx) + p11.y * wx,
-        p01.z * (1 - wx) + p11.z * wx,
-        p01.w * (1 - wx) + p11.w * wx
-    );
-
-    return make_float4(
-        top.x * (1 - wy) + bottom.x * wy,
-        top.y * (1 - wy) + bottom.y * wy,
-        top.z * (1 - wy) + bottom.z * wy,
-        top.w * (1 - wy) + bottom.w * wy
-    );
-}
-
 __global__ void rotate_arbitrary_kernel(
     const float4* __restrict__ src,
     float4* __restrict__ dst,
@@ -168,7 +128,8 @@ __global__ void rotate_arbitrary_kernel(
     const float src_cx,
     const float src_cy,
     const float dst_cx,
-    const float dst_cy
+    const float dst_cy,
+    const int interp_method
 ) {
     const int x = blockIdx.x * blockDim.x + threadIdx.x;
     const int y = blockIdx.y * blockDim.y + threadIdx.y;
@@ -187,7 +148,27 @@ __global__ void rotate_arbitrary_kernel(
     if (sx > -0.5f && sx < (float)src_width - 0.5f && 
         sy > -0.5f && sy < (float)src_height - 0.5f) {
         
-        dst[y * dst_width + x] = sample_bilinear(src, src_width, src_height, sx, sy);
+        float4 result;
+        
+        switch (interp_method) {
+            case INTERP_NEAREST:
+                result = sample_nearest(src, sx, sy, src_width, src_height);
+                break;
+            case INTERP_BILINEAR:
+                result = sample_bilinear(src, sx, sy, src_width, src_height);
+                break;
+            case INTERP_BICUBIC:
+                result = sample_bicubic(src, sx, sy, src_width, src_height);
+                break;
+            case INTERP_LANCZOS:
+                result = sample_lanczos(src, sx, sy, src_width, src_height);
+                break;
+            default:
+                result = sample_bilinear(src, sx, sy, src_width, src_height);
+                break;
+        }
+        
+        dst[y * dst_width + x] = result;
     } else {
         dst[y * dst_width + x] = make_float4(0.0f, 0.0f, 0.0f, 0.0f);
     }
@@ -199,12 +180,19 @@ PyObject* py_rotate_arbitrary_f32(PyObject* self, PyObject* args) {
     uint32_t src_width, src_height;
     uint32_t dst_width, dst_height;
     float angle_deg;
+    int interp_method;
     
-    if (!PyArg_ParseTuple(args, "OOIIIIf", 
+    if (!PyArg_ParseTuple(args, "OOIIIIfi", 
                           &src_capsule, &dst_capsule, 
                           &src_width, &src_height, 
                           &dst_width, &dst_height,
-                          &angle_deg)) {
+                          &angle_deg, &interp_method)) {
+        return NULL;
+    }
+
+    if (interp_method < INTERP_NEAREST || interp_method > INTERP_LANCZOS) {
+        PyErr_SetString(PyExc_ValueError, 
+            "Invalid interpolation method (0=nearest, 1=bilinear, 2=bicubic, 3=lanczos)");
         return NULL;
     }
 
@@ -237,7 +225,8 @@ PyObject* py_rotate_arbitrary_f32(PyObject* self, PyObject* args) {
         dst_width, dst_height,
         sin_t, cos_t,
         src_cx, src_cy,
-        dst_cx, dst_cy
+        dst_cx, dst_cy,
+        interp_method
     );
 
     if (check_cuda_launch() < 0) return NULL;

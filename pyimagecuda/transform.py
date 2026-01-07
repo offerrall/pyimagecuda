@@ -5,7 +5,7 @@ from .fill import Fill
 from .io import copy
 from .pyimagecuda_internal import ( #type: ignore
     flip_f32, crop_f32, rotate_fixed_f32, 
-    rotate_arbitrary_f32, copy_buffer 
+    rotate_arbitrary_f32, copy_buffer, zoom_f32
 )
 
 
@@ -55,6 +55,7 @@ class Transform:
         image: Image,
         angle: float,
         expand: bool = True,
+        interpolation: Literal['nearest', 'bilinear', 'bicubic', 'lanczos'] = 'bilinear',
         dst_buffer: Image | None = None
     ) -> Image | None:
         """
@@ -62,6 +63,17 @@ class Transform:
         
         Docs & Examples: https://offerrall.github.io/pyimagecuda/transform/#rotate
         """
+        
+        interp_map = {
+            'nearest': 0,
+            'bilinear': 1,
+            'bicubic': 2,
+            'lanczos': 3
+        }
+        
+        interp_method = interp_map.get(interpolation)
+        if interp_method is None:
+            raise ValueError(f"Invalid interpolation: {interpolation}. Must be {list(interp_map.keys())}")
         
         norm_angle = angle % 360
         if norm_angle < 0:
@@ -137,7 +149,8 @@ class Transform:
                 dst_buffer._buffer._handle,
                 image.width, image.height,
                 final_w, final_h,
-                float(angle)
+                float(angle),
+                interp_method
             )
         
         return dst_buffer if return_buffer else None
@@ -202,4 +215,61 @@ class Transform:
                 copy_w, copy_h
             )
             
+        return dst_buffer if return_buffer else None
+
+    @staticmethod
+    def zoom(
+        image: Image,
+        zoom_factor: float = 2.0,
+        center_x: float | None = None,
+        center_y: float | None = None,
+        interpolation: Literal['nearest', 'bilinear', 'bicubic', 'lanczos'] = 'bilinear',
+        dst_buffer: Image | None = None
+    ) -> Image | None:
+        """
+        Zoom into an image by a specified factor, centered at (center_x, center_y).
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/transform/#zoom
+        """
+        if zoom_factor <= 0:
+            raise ValueError("Zoom factor must be positive")
+        
+        if center_x is None:
+            center_x = image.width / 2.0
+        if center_y is None:
+            center_y = image.height / 2.0
+        
+        center_x = max(0.0, min(float(image.width - 1), float(center_x)))
+        center_y = max(0.0, min(float(image.height - 1), float(center_y)))
+        
+        interp_map = {
+            'nearest': 0,
+            'bilinear': 1,
+            'bicubic': 2,
+            'lanczos': 3
+        }
+        
+        interp_method = interp_map.get(interpolation)
+        if interp_method is None:
+            raise ValueError(f"Invalid interpolation: {interpolation}. Must be {list(interp_map.keys())}")
+        
+        if dst_buffer is None:
+            dst_buffer = Image(image.width, image.height)
+            return_buffer = True
+        else:
+            return_buffer = False
+        
+        zoom_f32(
+            image._buffer._handle,
+            dst_buffer._buffer._handle,
+            image.width,
+            image.height,
+            dst_buffer.width,
+            dst_buffer.height,
+            float(zoom_factor),
+            float(center_x),
+            float(center_y),
+            interp_method
+        )
+        
         return dst_buffer if return_buffer else None

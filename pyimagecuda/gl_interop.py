@@ -35,7 +35,7 @@ class GLResource:
         self.pbo_id = pbo_id
         self._handle = register_gl_pbo(pbo_id)
     
-    def copy_from(self, image: ImageU8) -> None:
+    def copy_from(self, image: ImageU8, sync: bool = True) -> None:
         """
         Copies ImageU8 data directly to the registered PBO (GPU→GPU).
         
@@ -51,7 +51,8 @@ class GLResource:
             image._buffer._handle,
             self._handle,
             image.width,
-            image.height
+            image.height,
+            sync
         )
     
     def free(self) -> None:

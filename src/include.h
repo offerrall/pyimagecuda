@@ -129,6 +129,9 @@ PyObject* py_flip_f32(PyObject* self, PyObject* args);
 PyObject* py_rotate_arbitrary_f32(PyObject* self, PyObject* args);
 PyObject* py_rotate_fixed_f32(PyObject* self, PyObject* args);
 
+// zoom.cu
+PyObject* py_zoom_f32(PyObject* self, PyObject* args);
+
 
 #ifdef __cplusplus
 }

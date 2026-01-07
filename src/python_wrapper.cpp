@@ -131,6 +131,9 @@ static PyMethodDef all_methods[] = {
     {"rotate_arbitrary_f32", py_rotate_arbitrary_f32, METH_VARARGS, "Rotate Arbitrary F32"},
     {"rotate_fixed_f32", py_rotate_fixed_f32, METH_VARARGS, "Rotate Fixed F32"},
 
+    // zoom.cu
+    {"zoom_f32", py_zoom_f32, METH_VARARGS, "Zoom F32"},
+
 
     {NULL, NULL, 0, NULL}
 };

@@ -1,6 +1,6 @@
 # OpenGL Integration
 
-PyImageCUDA provides a GPU-to-GPU transfer with OpenGL through CUDA-OpenGL interop, enabling efficient real-time preview pipelines.
+PyImageCUDA provides GPU-to-GPU transfer with OpenGL through CUDA-OpenGL interop, enabling efficient real-time preview pipelines.
 
 ---
 
@@ -44,12 +44,13 @@ Registers an OpenGL PBO with CUDA for interop.
 
 ### copy_from()
 ```python
-gl_resource.copy_from(image: ImageU8) -> None
+gl_resource.copy_from(image: ImageU8, sync: bool = True) -> None
 ```
 Copies ImageU8 data directly to PBO (GPU→GPU, zero CPU overhead).
 
 **Parameters:**
 - `image`: Source ImageU8 buffer
+- `sync`: If `True` (default), blocks until copy completes. If `False`, returns immediately (advanced usage).
 
 **Raises:**
 - `TypeError`: If image is not ImageU8
@@ -68,6 +69,16 @@ Unregisters the resource. Must be called before deleting the PBO.
 with GLResource(pbo) as gl_resource:
     gl_resource.copy_from(image)
 ```
+
+---
+
+## Complete Example
+
+A full working implementation with PySide6 and PyOpenGL:
+
+**https://github.com/offerrall/pyimagecuda-studio/tree/main/pyimagecuda_studio/gui/preview**
+
+---
 
 ## Best Practices
 

@@ -41,7 +41,7 @@ save(flipped, 'output.jpg')
 
 ## Rotate
 
-Rotates the image by any angle in degrees (clockwise).
+Rotates the image by any angle in degrees (clockwise) with selectable interpolation quality.
 
 **Example - Expand Mode (Default):**
 
@@ -114,20 +114,67 @@ save(rotated, 'output.jpg')
 - `image` (Image): Source image
 - `angle` (float): Rotation angle in degrees (clockwise). Positive values rotate clockwise, negative counter-clockwise
 - `expand` (bool): If True, expand canvas to fit entire rotated image; if False, keep original dimensions and clip (default: True)
+- `interpolation` (str): Interpolation method - `'nearest'`, `'bilinear'` (default), `'bicubic'`, or `'lanczos'`
 - `dst_buffer` (Image | None): Optional output buffer (default: None)
 
 **Returns:** New rotated image (or None if `dst_buffer` provided)
 
 **Optimization notes:**
 - Rotations of exactly 90°, 180°, and 270° use optimized fixed-angle kernels (lossless, pixel-perfect)
-- Other angles use bilinear interpolation
+- Other angles use the selected interpolation method
 - 0° rotation is optimized as a simple copy
+- Fixed rotations (90°/180°/270°) ignore the `interpolation` parameter
 
 **Expand mode behavior:**
 - `expand=True`: Canvas size changes to fit the rotated image completely (recommended)
 - `expand=False`: Canvas size stays the same, corners may be clipped
 
 ---
+
+## Zoom
+
+Zoom into an image with optional buffer allocation.
+
+**Example - Basic Zoom (Auto-allocate):**
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
+  
+```python
+from pyimagecuda import load, Transform, save
+
+img = load("photo.jpg")
+
+# Zoom 5× into center (creates new buffer)
+zoomed = Transform.zoom(img, zoom_factor=5.0)
+
+save(zoomed, 'zoomed_5x.jpg')
+```
+
+  </div>
+  <div style="flex: 1; min-width: 300px;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/transform_zoom_5x.png" alt="5x zoom" style="width: 100%;">
+  </div>
+</div>
+
+**Parameters:**
+
+- `image` (Image): Source image (can be any size, e.g., 8K)
+- `zoom_factor` (float): Zoom level - `2.0` = 200%, `10.0` = 1000% (default: 2.0)
+- `center_x` (float | None): Center X coordinate in pixels (default: image.width / 2)
+- `center_y` (float | None): Center Y coordinate in pixels (default: image.height / 2)
+- `interpolation` (str): Interpolation method - `'nearest'`, `'bilinear'` (default), `'bicubic'`, or `'lanczos'`
+- `dst_buffer` (Image | None): Optional output buffer (default: None, creates buffer same size as source)
+
+**Returns:** New zoomed image (or None if `dst_buffer` provided)
+
+**Key advantages:**
+
+- **Flexible sizing:** Auto-allocate at source size or use custom canvas
+- **Memory efficient:** With `dst_buffer`, VRAM = `src + dst` only (no intermediate buffers)
+- **Constant performance:** Zoom time is O(dst_pixels), independent of zoom level
+- **Full quality:** Even at extreme zoom (20×, 50×, 100×), maintains interpolation quality
+- **Perfect for viewers:** Load massive image once, pan/zoom in real-time
 
 ## Crop
 
@@ -209,7 +256,6 @@ save(cropped, 'output.jpg')
 All transform operations support buffer reuse for batch processing.
 
 **Example - Batch Rotation:**
-
 ```python
 from pyimagecuda import Image, load, Transform, save
 
@@ -220,7 +266,12 @@ dst = Image(3000, 3000)
 for file in image_files:
     img = load(file)
     
-    Transform.rotate(img, angle=45, dst_buffer=dst)
+    Transform.rotate(
+        img, 
+        angle=45, 
+        interpolation='bicubic',
+        dst_buffer=dst
+    )
     
     save(dst, f"rotated_{file}")
     img.free()
@@ -228,8 +279,23 @@ for file in image_files:
 dst.free()
 ```
 
-**Example - Batch Crop:**
+**Example - Batch Zoom:**
+```python
+from pyimagecuda import Image, load, Transform, save
 
+src = load("photo.jpg")
+canvas = Image(1920, 1080)
+
+# Generate zoom sequence
+for i, zoom in enumerate([1.0, 2.0, 5.0, 10.0, 20.0]):
+    Transform.zoom(src, zoom_factor=zoom, dst_buffer=canvas)
+    save(canvas, f"zoom_{i:02d}.jpg")
+
+src.free()
+canvas.free()
+```
+
+**Example - Batch Crop:**
 ```python
 from pyimagecuda import Image, load, Transform, save
 
@@ -250,22 +316,3 @@ for file in image_files:
 
 dst.free()
 ```
-
----
-
-## Performance Notes
-
-**Rotation speeds:**
-- Fixed angles (90°, 180°, 270°): Fastest, lossless
-- 0° (no rotation): Near-instant copy
-- Arbitrary angles: Fast bilinear interpolation
-
-**Memory efficiency:**
-- `expand=True` may require larger output buffer
-- `expand=False` keeps output same size as input
-- Crop always outputs exact requested dimensions
-
-**Interpolation:**
-- Fixed rotations: No interpolation, pixel-perfect
-- Arbitrary rotations: Bilinear interpolation (smooth results)
-- Flips: Direct pixel mapping, lossless

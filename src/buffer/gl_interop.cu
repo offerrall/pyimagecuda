@@ -146,10 +146,11 @@ PyObject* py_copy_to_gl_pbo(PyObject* self, PyObject* args) {
     PyObject* buffer_capsule;
     PyObject* resource_capsule;
     uint32_t width, height;
-    
-    if (!PyArg_ParseTuple(args, "OOII", 
+    int sync = 1;
+
+    if (!PyArg_ParseTuple(args, "OOII|p", 
                          &buffer_capsule, &resource_capsule, 
-                         &width, &height)) {
+                         &width, &height, &sync)) {
         return NULL;
     }
     
@@ -218,13 +219,30 @@ PyObject* py_copy_to_gl_pbo(PyObject* self, PyObject* args) {
     }
     
     err = cudaMemcpy(pbo_ptr, buf_ctx->ptr, copy_size, cudaMemcpyDeviceToDevice);
-    cudaGraphicsUnmapResources(1, &gl_ctx->resource, 0);
-    
+    cudaError_t unmap_err = cudaGraphicsUnmapResources(1, &gl_ctx->resource, 0);
+
     if (err != cudaSuccess) {
         PyErr_Format(PyExc_RuntimeError,
                     "cudaMemcpy (GPU->GPU) failed: %s",
                     cudaGetErrorString(err));
         return NULL;
+    }
+
+    if (unmap_err != cudaSuccess) {
+        PyErr_Format(PyExc_RuntimeError,
+                    "cudaGraphicsUnmapResources failed: %s",
+                    cudaGetErrorString(unmap_err));
+        return NULL;
+    }
+    
+    if (sync) {
+        err = cudaDeviceSynchronize();
+        if (err != cudaSuccess) {
+            PyErr_Format(PyExc_RuntimeError,
+                        "cudaDeviceSynchronize failed: %s",
+                        cudaGetErrorString(err));
+            return NULL;
+        }
     }
     
     Py_RETURN_NONE;
