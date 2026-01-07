@@ -153,7 +153,7 @@ save(zoomed, 'zoomed_5x.jpg')
 
   </div>
   <div style="flex: 1; min-width: 300px;">
-    <img src="https://offerrall.github.io/pyimagecuda/images/transform_zoom_5x.png" alt="5x zoom" style="width: 100%;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/transform_zoom_5x.jpg" alt="5x zoom" style="width: 100%;">
   </div>
 </div>
 
