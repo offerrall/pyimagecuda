@@ -295,6 +295,53 @@ save(img, 'output.png')
 
 ---
 
+## Chroma Key
+
+Remove a specific color from an image, commonly used for background removal and compositing.
+
+**Example:**
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
+
+```python
+from pyimagecuda import Image, load, Effect, save
+
+# Load an image with a solid color background
+img = load('chroma_key.jpg')
+
+# Remove green background
+Effect.chroma_key(
+    img,
+    key_color=(0, 1, 0),  # Green background
+    threshold=0.7,
+    smoothness=0.1,
+    spill_suppression=0.5
+)
+
+save(img, 'chroma_key_out.png')
+```
+
+  </div>
+  <div style="flex: 1; min-width: 300px;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/effect_chroma_key.png" alt="Chroma key effect" style="width: 100%;">
+
+  </div>
+</div>
+
+**Parameters:**
+
+- `image` (Image): Image to modify (in-place)
+- `key_color` (tuple[float, float, float]): RGB color to remove (default: `(0.0, 1.0, 0.0)` - green)
+- `threshold` (float): Color similarity threshold - higher values remove more similar colors (default: 0.4)
+- `smoothness` (float): Edge smoothness - controls the transition between transparent and opaque areas (default: 0.1)
+- `spill_suppression` (float): Reduces color spill from the key color onto remaining pixels (0.0-1.0, default: 0.5)
+
+**Returns:** `None` (modifies image in-place)
+
+**Note:** If `threshold` is very close to 0 (< 1e-6), the function returns early without modifications.
+---
+
 ## Buffer Reuse
 
 Reuse buffers for batch processing to avoid allocations.

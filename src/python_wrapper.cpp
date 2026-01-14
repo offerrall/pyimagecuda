@@ -12,11 +12,17 @@ static PyMethodDef all_methods[] = {
     // gamma.cu
     {"adjust_gamma_f32", py_adjust_gamma_f32, METH_VARARGS, "Adjust Gamma F32"},
 
+    // hue.cu
+    {"adjust_hue_f32", py_adjust_hue_f32, METH_VARARGS, "Adjust Hue F32"},
+
     // opacity.cu
     {"adjust_opacity_f32", py_adjust_opacity_f32, METH_VARARGS, "Adjust Opacity F32"},
 
     // saturation.cu
     {"adjust_saturation_f32", py_adjust_saturation_f32, METH_VARARGS, "Adjust Saturation F32"},
+
+    // vibrance.cu
+    {"adjust_vibrance_f32", py_adjust_vibrance_f32, METH_VARARGS, "Adjust Vibrance F32"},
 
 
     // blend
@@ -48,6 +54,9 @@ static PyMethodDef all_methods[] = {
 
 
     // efffects
+    // chroma_key.cu
+    {"chroma_key_f32", py_chroma_key_f32, METH_VARARGS, "Chroma Key F32"},
+
     // extract_alpha_and_colorize.cu
     {"colorize_alpha_mask_f32", py_colorize_alpha_mask_f32, METH_VARARGS, "Colorize Alpha Mask F32"},
     {"extract_alpha_f32", py_extract_alpha_f32, METH_VARARGS, "Extract Alpha F32"},
@@ -60,7 +69,7 @@ static PyMethodDef all_methods[] = {
     {"generate_stroke_composite_f32", py_generate_stroke_composite_f32, METH_VARARGS, "Generate Stroke Composite F32"},
 
     // vignette.cu
-    {"effect_vignette_f32", py_effect_vignette_f32, METH_VARARGS, "Effect Vignette F32"},
+    {"vignette_f32", py_vignette_f32, METH_VARARGS, "Vignette F32"},
 
 
     // fill

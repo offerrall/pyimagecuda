@@ -302,4 +302,65 @@ static __device__ __forceinline__ float4 sample_lanczos(
     return make_float4(sum_x, sum_y, sum_z, sum_w);
 }
 
+static __device__ __forceinline__ void rgb_to_hsv(
+    const float r, 
+    const float g, 
+    const float b, 
+    float* h, 
+    float* s, 
+    float* v
+) {
+    const float cmax = fmaxf(r, fmaxf(g, b));
+    const float cmin = fminf(r, fminf(g, b));
+    const float delta = cmax - cmin;
+    
+    *v = cmax;
+    *s = (cmax > 0.00001f) ? (delta / cmax) : 0.0f;
+    
+    if (delta < 0.00001f) {
+        *h = 0.0f;
+    } else if (cmax == r) {
+        *h = 60.0f * fmodf((g - b) / delta, 6.0f);
+    } else if (cmax == g) {
+        *h = 60.0f * ((b - r) / delta + 2.0f);
+    } else {
+        *h = 60.0f * ((r - g) / delta + 4.0f);
+    }
+    
+    if (*h < 0.0f) *h += 360.0f;
+}
+
+static __device__ __forceinline__ void hsv_to_rgb(
+    const float h, 
+    const float s, 
+    const float v, 
+    float* r, 
+    float* g, 
+    float* b
+) {
+    const float c = v * s;
+    const float x = c * (1.0f - fabsf(fmodf(h / 60.0f, 2.0f) - 1.0f));
+    const float m = v - c;
+    
+    float r1, g1, b1;
+    
+    if (h < 60.0f) {
+        r1 = c; g1 = x; b1 = 0.0f;
+    } else if (h < 120.0f) {
+        r1 = x; g1 = c; b1 = 0.0f;
+    } else if (h < 180.0f) {
+        r1 = 0.0f; g1 = c; b1 = x;
+    } else if (h < 240.0f) {
+        r1 = 0.0f; g1 = x; b1 = c;
+    } else if (h < 300.0f) {
+        r1 = x; g1 = 0.0f; b1 = c;
+    } else {
+        r1 = c; g1 = 0.0f; b1 = x;
+    }
+    
+    *r = r1 + m;
+    *g = g1 + m;
+    *b = b1 + m;
+}
+
 #endif 

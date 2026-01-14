@@ -10,7 +10,8 @@ from .pyimagecuda_internal import ( #type: ignore
     colorize_alpha_mask_f32,
     compute_distance_field_f32,
     generate_stroke_composite_f32,
-    effect_vignette_f32
+    vignette_f32,
+    chroma_key_f32
 )
 
 
@@ -206,11 +207,37 @@ class Effect:
         if softness < 0:
             softness = 0.0
         
-        effect_vignette_f32(
+        vignette_f32(
             image._buffer._handle,
             image.width,
             image.height,
             float(radius),
             float(softness),
             color
+        )
+
+    @staticmethod
+    def chroma_key(
+        image: Image,
+        key_color: tuple[float, float, float] = (0.0, 1.0, 0.0),
+        threshold: float = 0.4,
+        smoothness: float = 0.1,
+        spill_suppression: float = 0.5
+    ) -> None:
+        """
+        Remove a color from the image (in-place).
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/effect/#chroma-key
+        """
+        if abs(threshold) < 1e-6:
+            return
+        
+        chroma_key_f32(
+            image._buffer._handle,
+            image.width,
+            image.height,
+            key_color,
+            float(threshold),
+            float(smoothness),
+            float(spill_suppression)
         )

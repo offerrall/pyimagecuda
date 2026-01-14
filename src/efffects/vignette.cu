@@ -48,7 +48,7 @@ __global__ void vignette_kernel(
     buffer[idx] = pixel;
 }
 
-PyObject* py_effect_vignette_f32(PyObject* self, PyObject* args) {
+PyObject* py_vignette_f32(PyObject* self, PyObject* args) {
     PyObject* capsule;
     PyObject* color_obj;
     uint32_t width, height;

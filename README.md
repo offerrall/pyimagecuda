@@ -1,4 +1,4 @@
-# PyImageCUDA 0.1.0
+# PyImageCUDA 0.1.1
 
 [![PyPI version](https://img.shields.io/pypi/v/pyimagecuda.svg)](https://pypi.org/project/pyimagecuda/)
 [![Build Status](https://github.com/offerrall/pyimagecuda/actions/workflows/build.yml/badge.svg)](https://github.com/offerrall/pyimagecuda/actions)
@@ -88,10 +88,10 @@ pip install pyimagecuda
 * [Text](https://offerrall.github.io/pyimagecuda/text/) (Rich typography, system fonts, HTML-like markup, letter spacing...)
 * [Blend](https://offerrall.github.io/pyimagecuda/blend/) (Normal, Multiply, Screen, Add, Overlay, Soft Light, Hard Light, Mask)
 * [Resize](https://offerrall.github.io/pyimagecuda/resize/) (Nearest, Bilinear, Bicubic, Lanczos)
-* [Adjust](https://offerrall.github.io/pyimagecuda/adjust/) (Brightness, Contrast, Saturation, Gamma, Opacity)
+* [Adjust](https://offerrall.github.io/pyimagecuda/adjust/) (Brightness, Contrast, Saturation, Gamma, Opacity, Vibrance, Hue)
 * [Transform](https://offerrall.github.io/pyimagecuda/transform/) (Flip, Rotate, Crop, Zoom)
 * [Filter](https://offerrall.github.io/pyimagecuda/filter/) (Gaussian Blur, Sharpen, Sepia, Invert, Threshold, Solarize, Sobel, Emboss)
-* [Effect](https://offerrall.github.io/pyimagecuda/effect/) (Drop Shadow, Rounded Corners, Stroke, Vignette)
+* [Effect](https://offerrall.github.io/pyimagecuda/effect/) (Drop Shadow, Rounded Corners, Stroke, Vignette, Chroma Key)
 
 ## Performance
 

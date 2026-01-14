@@ -17,11 +17,17 @@ PyObject* py_adjust_contrast_f32(PyObject* self, PyObject* args);
 // gamma.cu
 PyObject* py_adjust_gamma_f32(PyObject* self, PyObject* args);
 
+// hue.cu
+PyObject* py_adjust_hue_f32(PyObject* self, PyObject* args);
+
 // opacity.cu
 PyObject* py_adjust_opacity_f32(PyObject* self, PyObject* args);
 
 // saturation.cu
 PyObject* py_adjust_saturation_f32(PyObject* self, PyObject* args);
+
+// vibrance.cu
+PyObject* py_adjust_vibrance_f32(PyObject* self, PyObject* args);
 
 // blend
 // blend.cu
@@ -50,6 +56,9 @@ PyObject* py_register_gl_pbo(PyObject* self, PyObject* args);
 PyObject* py_unregister_gl_resource(PyObject* self, PyObject* args);
 
 // efffects
+// chroma_key.cu
+PyObject* py_chroma_key_f32(PyObject* self, PyObject* args);
+
 // extract_alpha_and_colorize.cu
 PyObject* py_colorize_alpha_mask_f32(PyObject* self, PyObject* args);
 PyObject* py_extract_alpha_f32(PyObject* self, PyObject* args);
@@ -62,7 +71,7 @@ PyObject* py_compute_distance_field_f32(PyObject* self, PyObject* args);
 PyObject* py_generate_stroke_composite_f32(PyObject* self, PyObject* args);
 
 // vignette.cu
-PyObject* py_effect_vignette_f32(PyObject* self, PyObject* args);
+PyObject* py_vignette_f32(PyObject* self, PyObject* args);
 
 // fill
 // checkerboard.cu

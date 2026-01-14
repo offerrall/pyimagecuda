@@ -243,6 +243,189 @@ save(img, 'output.jpg')
 
 ---
 
+## Hue
+
+Shifts all colors around the color wheel by rotating hue values in HSV color space.
+
+**Example - Warm Sunset Tone:**
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
+
+```python
+from pyimagecuda import load, Adjust, save
+
+img = load("photo.jpg")
+
+Adjust.hue(img, 15)
+
+save(img, 'adjust_hue_warm.png')
+```
+
+  </div>
+  <div style="flex: 1; min-width: 300px;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/adjust_hue_warm.png" alt="Warm hue shift" style="width: 100%;">
+    <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
+  </div>
+</div>
+
+**Example - Cool/Cold Tone:**
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
+
+```python
+from pyimagecuda import load, Adjust, save
+
+img = load("photo.jpg")
+
+Adjust.hue(img, -30)
+
+save(img, 'adjust_hue_cool.png')
+```
+
+  </div>
+  <div style="flex: 1; min-width: 300px;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/adjust_hue_cool.png" alt="Cool hue shift" style="width: 100%;">
+    <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
+  </div>
+</div>
+
+**Example - Complementary Colors:**
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
+
+```python
+from pyimagecuda import load, Adjust, save
+
+img = load("photo.jpg")
+
+# Shift to opposite colors on the color wheel
+Adjust.hue(img, 180)
+
+save(img, 'adjust_hue_180.png')
+```
+
+  </div>
+  <div style="flex: 1; min-width: 300px;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/adjust_hue_180.png" alt="Complementary colors" style="width: 100%;">
+    <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
+  </div>
+</div>
+
+**Parameters:**
+
+- `image` (Image): Image to adjust (modified in-place)
+- `degrees` (float): Hue rotation in degrees
+  - `degrees = 0`: No change
+  - `degrees = ±30`: Subtle warm/cool shift (color correction)
+  - `degrees = ±60-90`: Noticeable color change
+  - `degrees = 120`: Red → Green, Green → Blue, Blue → Red
+  - `degrees = 180`: Complementary colors (opposite on color wheel)
+  - `degrees = 360`: Full rotation (same as 0)
+
+**Use for:**
+
+- **Color correction:** Fix white balance issues (±10-30°)
+- **Creative effects:** Transform entire color palette
+- **Branding:** Change product/logo colors globally
+- **Season simulation:** Summer → Autumn (shift towards orange/red)
+- **Artistic filters:** Psychedelic, vintage, or surreal color schemes
+
+**Note:** Hue shift preserves brightness and saturation. Black, white, and gray pixels remain unchanged since they have no hue.
+
+---
+
+## Vibrance
+
+Smart saturation that protects already-saturated colors, especially skin tones.
+
+**Example - Portrait Enhancement:**
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
+
+```python
+from pyimagecuda import load, Adjust, save
+
+img = load("photo.jpg")
+
+Adjust.vibrance(img, 0.5)
+
+save(img, 'adjust_vibrance_portrait.png')
+```
+
+  </div>
+  <div style="flex: 1; min-width: 300px;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/adjust_vibrance_portrait.png" alt="Vibrance portrait" style="width: 100%;">
+    <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
+  </div>
+</div>
+
+**Example - Landscape:**
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: start;">
+  <div style="flex: 1; min-width: 300px;">
+
+```python
+from pyimagecuda import load, Adjust, save
+
+img = load("photo.jpg")
+
+Adjust.vibrance(img, 0.8)
+
+save(img, 'adjust_vibrance_landscape.png')
+```
+
+  </div>
+  <div style="flex: 1; min-width: 300px;">
+    <img src="https://offerrall.github.io/pyimagecuda/images/adjust_vibrance_landscape.png" alt="Vibrance landscape" style="width: 100%;">
+    <p style="font-size: 0.9em; color: #666; margin-top: 8px;">Right-click to download and compare in full size</p>
+  </div>
+</div>
+
+**Parameters:**
+
+- `image` (Image): Image to adjust (modified in-place)
+- `amount` (float): Vibrance adjustment (-1.0 to 1.0)
+  - `amount = -0.5`: Subtle desaturation
+  - `amount = 0.0`: No change
+  - `amount = 0.4`: Recommended for portraits
+  - `amount = 0.8`: Strong boost for landscapes
+
+**Use for:** Enhancing colors without oversaturating skin tones, product photography, natural-looking color boosts
+
+---
+
+## Saturation vs Vibrance
+
+**Saturation** boosts all colors equally:
+- Red skin becomes orange
+- Already vibrant colors can clip
+
+**Vibrance** is selective:
+- Protects already-saturated colors (skin tones)
+- Boosts muted colors more
+- Natural-looking results
+
+**Example comparison:**
+```python
+from pyimagecuda import load, Adjust, save
+
+# Saturation: Can oversaturate skin
+img1 = load("portrait.jpg")
+Adjust.saturation(img1, 1.5)
+save(img1, 'saturated.jpg')
+
+# Vibrance: Protects skin tones
+img2 = load("portrait.jpg")
+Adjust.vibrance(img2, 0.5)
+save(img2, 'vibrant.jpg')
+```
+
+---
+
 ## Opacity
 
 Adjusts image opacity by multiplying the alpha channel.

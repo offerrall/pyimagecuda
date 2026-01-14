@@ -4,7 +4,9 @@ from .pyimagecuda_internal import ( #type: ignore
     adjust_contrast_f32,
     adjust_saturation_f32,
     adjust_gamma_f32,
-    adjust_opacity_f32
+    adjust_opacity_f32,
+    adjust_hue_f32,
+    adjust_vibrance_f32
 )
 
 
@@ -112,4 +114,43 @@ class Adjust:
             image.width,
             image.height,
             float(factor)
+        )
+
+    @staticmethod
+    def hue(image: Image, degrees: float) -> None:
+        """
+        Shifts all colors around the color wheel (in-place).
+        
+        Rotates hue in HSV color space, changing colors while preserving 
+        brightness and saturation.
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/adjust/#hue
+        """
+        normalized = degrees % 360.0
+        
+        if abs(normalized) < 1e-6 or abs(normalized - 360.0) < 1e-6:
+            return
+        
+        adjust_hue_f32(
+            image._buffer._handle,
+            image.width,
+            image.height,
+            float(degrees)
+        )
+    
+    @staticmethod
+    def vibrance(image: Image, amount: float) -> None:
+        """
+        Smart saturation that protects already-saturated colors (in-place).
+        
+        Docs & Examples: https://offerrall.github.io/pyimagecuda/adjust/#vibrance
+        """
+        if abs(amount) < 1e-6:
+            return
+        
+        adjust_vibrance_f32(
+            image._buffer._handle,
+            image.width,
+            image.height,
+            float(amount)
         )
