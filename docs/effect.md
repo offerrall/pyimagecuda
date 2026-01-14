@@ -339,7 +339,6 @@ save(img, 'chroma_key_out.png')
 
 **Returns:** `None` (modifies image in-place)
 
-**Note:** If `threshold` is very close to 0 (< 1e-6), the function returns early without modifications.
 ---
 
 ## Buffer Reuse
