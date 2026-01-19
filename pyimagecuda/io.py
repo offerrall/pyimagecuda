@@ -62,18 +62,24 @@ def convert_u8_to_float(dst: Image, src: ImageU8) -> None:
     dst.resize(src.width, src.height)
     convert_u8_to_f32(dst._buffer._handle, src._buffer._handle, src.width, src.height)
 
-
 def load(
     filepath: str, 
     f32_buffer: Image | None = None, 
-    u8_buffer: ImageU8 | None = None
+    u8_buffer: ImageU8 | None = None,
+    autorotate: bool = True
 ) -> Image | None:
     """
     Loads an image from a file (returns new image or writes to buffer).
     
+    Args:
+        filepath: Path to the image file
+        f32_buffer: Optional float32 buffer to reuse
+        u8_buffer: Optional uint8 buffer to reuse
+        autorotate: If True, applies EXIF orientation automatically
+    
     Docs & Examples: https://offerrall.github.io/pyimagecuda/io/#loading-images
     """
-    vips_img = pyvips.Image.new_from_file(filepath, access='sequential')
+    vips_img = pyvips.Image.new_from_file(filepath, access='sequential', autorotate=autorotate)
 
     if vips_img.bands == 1:
         vips_img = vips_img.bandjoin([vips_img, vips_img, vips_img])
