@@ -27,6 +27,25 @@ img = load("photo.jpg")
 
 ---
 
+### EXIF Orientation (Auto-Rotation)
+
+By default, PyImageCUDA automatically applies EXIF orientation metadata to ensure images appear correctly oriented:
+```python
+# Default behavior: applies EXIF orientation
+img = load("photo_from_phone.jpg")  # Displays correctly
+
+# Disable auto-rotation if needed (advanced use cases)
+img = load("photo.jpg", autorotate=False)
+```
+
+**Why this matters:**
+
+- **Photos from phones/cameras** often store images "sideways" with EXIF orientation metadata
+- **Downloaded images** from the web usually have orientation already applied
+- `autorotate=True` (default) handles both cases correctly
+
+Keep `autorotate=True` (default) for user-facing applications. Only disable for advanced workflows where you need to process the raw image data without transformations.
+
 ### Buffer Reuse
 
 Avoid repeated allocations by reusing buffers:
