@@ -66,7 +66,7 @@ def load(
     filepath: str, 
     f32_buffer: Image | None = None, 
     u8_buffer: ImageU8 | None = None,
-    autorotate: bool = True
+    autorotate: bool = False
 ) -> Image | None:
     """
     Loads an image from a file (returns new image or writes to buffer).

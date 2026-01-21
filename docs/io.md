@@ -31,11 +31,11 @@ img = load("photo.jpg")
 
 By default, PyImageCUDA automatically applies EXIF orientation metadata to ensure images appear correctly oriented:
 ```python
-# Default behavior: applies EXIF orientation
-img = load("photo_from_phone.jpg")  # Displays correctly
+# Default behavior: autorotate=False
+img = load("photo_from_phone.jpg")  
 
-# Disable auto-rotation if needed (advanced use cases)
-img = load("photo.jpg", autorotate=False)
+# Explicitly enable autorotation
+img = load("photo.jpg", autorotate=True)
 ```
 
 **Why this matters:**
