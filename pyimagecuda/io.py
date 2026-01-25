@@ -75,11 +75,20 @@ def load(
         filepath: Path to the image file
         f32_buffer: Optional float32 buffer to reuse
         u8_buffer: Optional uint8 buffer to reuse
-        autorotate: If True, applies EXIF orientation automatically
+        autorotate: If True, applies EXIF orientation automatically (only for formats that support it)
     
     Docs & Examples: https://offerrall.github.io/pyimagecuda/io/#loading-images
     """
-    vips_img = pyvips.Image.new_from_file(filepath, access='sequential', autorotate=autorotate)
+    try:
+        if autorotate:
+            vips_img = pyvips.Image.new_from_file(filepath, access='sequential', autorotate=True)
+        else:
+            vips_img = pyvips.Image.new_from_file(filepath, access='sequential')
+    except pyvips.error.Error as e:
+        if 'does not support optional argument autorotate' in str(e):
+            vips_img = pyvips.Image.new_from_file(filepath, access='sequential')
+        else:
+            raise
 
     if vips_img.bands == 1:
         vips_img = vips_img.bandjoin([vips_img, vips_img, vips_img])
