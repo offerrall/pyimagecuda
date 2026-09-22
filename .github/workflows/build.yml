@@ -31,12 +31,15 @@ jobs:
           use-github-cache: 'true'
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.21.3
+        uses: pypa/cibuildwheel@v4.2.1
         env:
           CIBW_ARCHS_WINDOWS: "AMD64"
           CIBW_ARCHS_LINUX: "x86_64"
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
-          CIBW_SKIP: "cp36-* cp37-* cp38-* cp39-* pp* *-musllinux_*"
+          # Requires-python (>=3.10) already filters out EOL Pythons.
+          # cp31?t-*: skip free-threaded builds (extension requires the GIL).
+          # cp315-*: skip 3.15 prerelease (build 3.10-3.14 only).
+          CIBW_SKIP: "pp* cp31?t-* cp315-* *-musllinux_*"
           CIBW_BUILD_VERBOSITY: 1
           CIBW_BEFORE_ALL_LINUX: >
             yum install -y yum-utils mesa-libGL-devel &&

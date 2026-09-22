@@ -2,7 +2,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/pyimagecuda.svg)](https://pypi.org/project/pyimagecuda/)
 [![Build Status](https://github.com/offerrall/pyimagecuda/actions/workflows/build.yml/badge.svg)](https://github.com/offerrall/pyimagecuda/actions)
-![Python](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12%20|%203.13-blue)
+![Python](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12%20|%203.13%20|%203.14-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-brightgreen)
 ![Tests](https://img.shields.io/badge/tests-85%20passed-brightgreen)
 [![NVIDIA](https://img.shields.io/badge/NVIDIA-CUDA-76B900?style=flat&logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-zone)
